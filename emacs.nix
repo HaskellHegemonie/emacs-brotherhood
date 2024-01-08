@@ -1,6 +1,7 @@
 {pkgs, ...}@inputs:
 let
-  files = [./private ./emacs.el]
+  files = [./private ./emacs.el];
+in
 {
   # emacs29 baby
   package = pkgs.emacs29;
@@ -50,5 +51,5 @@ let
   #   haskell-mode = self.melpaPackages.haskell-mode;
   # });
 
-  extraConfig = builtins.foldl (a: b: a + b) (map builtins.readFile files);
+  extraConfig = builtins.readFile ./emacs.el;
 }

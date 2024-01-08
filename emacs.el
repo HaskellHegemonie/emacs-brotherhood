@@ -2,9 +2,16 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
-(keyboard-translate ?\C-t ?\C-x)
-(keyboard-translate ?\C-x ?\C-t)
-(set-frame-font "JetBrainsMonoNerdFont 11" nil nil)
+
+(defun my-configure-init-frame (frame)
+	(progn
+				(keyboard-translate ?\C-t ?\C-x)
+				(keyboard-translate ?\C-x ?\C-t)
+				(set-frame-font "JetBrainsMonoNerdFont 11" nil nil)
+				))
+
+
+(add-hook 'after-make-frame-functions #'my-configure-init-frame)
 (setq make-backup-files nil)
 (require 'use-package)
 (use-package evil
@@ -225,3 +232,4 @@
 	"Ewin"
 	evil-window-maps)
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
