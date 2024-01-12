@@ -23,12 +23,7 @@
   (setq evil-want-C-d-scroll t)
   (setq evil-want-C-h-delete t)
 	:bind (
-				 ;; ("C-w C-v" . #!evil-window-vsplit)
-				 ;; ("C-w C-s" . #'evil-window-split)
-				 ;; ("C-w C-l" . #'evil-window-right)
-				 ;; ("C-w C-h" . #'evil-window-left)
-				 ;; ("C-w C-j" . #'evil-window-down)
-				 )
+			 )
   :config
   (evil-mode 1)
 	(define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
@@ -110,17 +105,10 @@
 (use-package magit
   :bind
   (
-	 ;; ("C-c C-g" . magit-dispatch)
 	 ("C-c g" . 'magit-dispatch)
-	 ;; ("C-c g c" . 'magit-clone)
-	 ;; ("C-c g i" . 'magit-init))
 	 )
   :config
   (setq transient-default-level 7))
-
-;; (use-package doom-modeline
-;;   :init
-;;   (doom-modeline-mode 0))
 
 (use-package rainbow-delimiters
   :init
@@ -145,11 +133,6 @@
 				 ("C-l t" . #'eglot-find-typeDefinition)
 				 ("C-l d" . #'eglot-find-declaration)
 				 )
-	;; (define-key eglot-keymap "a" #'eglot-code-actions)
-	;; (define-key eglot-keymap "r" #'eglot-rename)
-	;; (define-key eglot-keymap "i" #'eglot-find-implementation)
-	;; (define-key eglot-keymap "t" #'eglot-find-typeDefinition)
-	;; (define-key eglot-keymap "d" #'eglot-find-declaration)
 	:config
 	(setq-default eglot-workspace-configuration
                 '((haskell
@@ -157,21 +140,6 @@
                     (stan
                      (globalOn . :json-false))))))  ;; disable stan
 	)
-  ;; :custom
-  ;; (eglot-autoshutdown t)  ;; shutdown language server after closing last file
-  ;; (eglot-confirm-server-initiated-edits nil)  ;; allow edits without confirmation
-;; (use-package lsp-mode
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")
-;; 	(add-hook 'prog-mode-hook #'lsp)
-;; 	(setq read-process-output-max (* 1024 1024))
-;; 	(setq gc-cons-threshold 100000000)
-;;   (setenv "LSP_USE_PLISTS" "true")
-;; 	(setq lsp-use-plist t)
-;;   (setq lsp-modeline-diagnostics-enable t)
-;; 	(setq lsp-headerline-breadcrumb-segments nil)
-;;   (lsp-headerline--disable-breadcrumb)
-;;   )
 
 (use-package lsp-haskell
 	:config
