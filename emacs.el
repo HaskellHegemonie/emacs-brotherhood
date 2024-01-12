@@ -125,6 +125,12 @@
 	:config
 	(defvar eglot-keymap (make-sparse-keymap))
 	(global-set-key (kbd "C-l") eglot-keymap)
+	(define-key eglot-keymap "a" #'eglot-code-actions)
+	(define-key eglot-keymap "r" #'eglot-rename)
+	(define-key eglot-keymap "i" #'eglot-find-implementation)
+	(define-key eglot-keymap "t" #'eglot-find-typeDefinition)
+	(define-key eglot-keymap "d" #'eglot-find-declaration)
+	(define-key eglot-keymap "f" #'eglot-format)
 	:bind (
 				 ("C-l a" . #'eglot-code-actions)
 				 ("C-l r" . #'eglot-rename)
@@ -139,12 +145,6 @@
                    (plugin
                     (stan
                      (globalOn . :json-false))))))  ;; disable stan
-	)
-
-(use-package lsp-haskell
-	:config
-	(add-hook 'haskell-mode-hook #'lsp)
-	(add-hook 'haskell-literate-mode-hook #'lsp)
 	)
 (use-package dap-mode)
 
