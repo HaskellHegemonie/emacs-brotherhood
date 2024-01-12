@@ -70,9 +70,11 @@
 
 (use-package org
   :config
+	(setq org-working-directory "~/code/O") ;; own variable
   (setq org-directory "~/orgRoam/agenda")
-  (setq org-agenda-files `("~/orgRoam/agenda/schedule.org"))
   (setq org-agenda-span 14)
+	(setq org-default-notes-file (concat org-working-directory "/captures.org"))
+	(setq org-agenda-files nil) ;; want to set this with C-c [ per project
   :bind
   (("C-c o l" . #'org-store-link)
 	 ("C-c o a" . 'org-agenda)

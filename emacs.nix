@@ -46,6 +46,8 @@ in
     kotlin-mode
     unicode-math-input
     bazel
+    auctex
+    cdlatex
   ];
   # overrides = (self: super: rec {
   #   haskell-mode = self.melpaPackages.haskell-mode;
