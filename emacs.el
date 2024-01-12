@@ -5,10 +5,10 @@
 
 (defun my-configure-init-frame (frame)
 	(progn
-				(keyboard-translate ?\C-t ?\C-x)
-				(keyboard-translate ?\C-x ?\C-t)
-				(set-frame-font "JetBrainsMonoNerdFont 11" nil nil)
-				))
+		(keyboard-translate ?\C-t ?\C-x)
+		(keyboard-translate ?\C-x ?\C-t)
+		(set-frame-font "JetBrainsMonoNerdFont 11" nil nil)
+		))
 
 
 (add-hook 'after-make-frame-functions #'my-configure-init-frame)
@@ -28,7 +28,7 @@
 				 ;; ("C-w C-l" . #'evil-window-right)
 				 ;; ("C-w C-h" . #'evil-window-left)
 				 ;; ("C-w C-j" . #'evil-window-down)
-	)
+				 )
   :config
   (evil-mode 1)
 	(define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
@@ -80,18 +80,18 @@
   (setq org-agenda-span 14)
   :bind
   (("C-c o a" . 'org-agenda)
-  ("C-c o s" . 'org-schedule)
-  ("C-c o t" . 'org-todo)
-  ("C-c o r" . 'org-refile)
-  ("C-c o d" . 'org-deadline)
-  ("C-c o ;" . 'org-timer-set-timer)
-  ("C-c o !" . #'org-time-stamp-inactive)
-  ("C-c o ," . 'org-timer-pause-or-continue)
-  ("C-c o _" . 'org-timer-stop)
-  ("C-c o 0" . 'org-timer-start)
-  ("C-c o ." . 'org-time-stamp)
-  ("C-c o c" . #'org-capture)
-  ("C-c o x" . #'org-toggle-checkbox)))
+   ("C-c o s" . 'org-schedule)
+   ("C-c o t" . 'org-todo)
+   ("C-c o r" . 'org-refile)
+   ("C-c o d" . 'org-deadline)
+   ("C-c o ;" . 'org-timer-set-timer)
+   ("C-c o !" . #'org-time-stamp-inactive)
+   ("C-c o ," . 'org-timer-pause-or-continue)
+   ("C-c o _" . 'org-timer-stop)
+   ("C-c o 0" . 'org-timer-start)
+   ("C-c o ." . 'org-time-stamp)
+   ("C-c o c" . #'org-capture)
+   ("C-c o x" . #'org-toggle-checkbox)))
 
 (use-package org-roam
   :custom
@@ -110,10 +110,11 @@
 (use-package magit
   :bind
   (
-		("C-c C-g" . magit-dispatch)
-		("C-c g g" . 'magit)
-		("C-c g c" . 'magit-clone)
-		("C-c g i" . 'magit-init))
+	 ;; ("C-c C-g" . magit-dispatch)
+	 ("C-c g" . 'magit-dispatch)
+	 ;; ("C-c g c" . 'magit-clone)
+	 ;; ("C-c g i" . 'magit-init))
+	 )
   :config
   (setq transient-default-level 7))
 
@@ -131,17 +132,59 @@
 (setq tab-with 2)
 (setq indent-line-function 'noindent)
 
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  ;; (setq lsp-clients-clangd-args "")
-  )
+(use-package eglot
+	:hook (prog-mode-hook . eglot-ensure)
+	:config
+	(defvar eglot-keymap (make-sparse-keymap))
+	(global-set-key (kbd "C-l") eglot-keymap)
+	:bind (
+				 ("C-l a" . #'eglot-code-actions)
+				 ("C-l r" . #'eglot-rename)
+				 ("C-l f" . #'eglot-format)
+				 ("C-l i" . #'eglot-find-imlementation)
+				 ("C-l t" . #'eglot-find-typeDefinition)
+				 ("C-l d" . #'eglot-find-declaration)
+				 )
+	;; (define-key eglot-keymap "a" #'eglot-code-actions)
+	;; (define-key eglot-keymap "r" #'eglot-rename)
+	;; (define-key eglot-keymap "i" #'eglot-find-implementation)
+	;; (define-key eglot-keymap "t" #'eglot-find-typeDefinition)
+	;; (define-key eglot-keymap "d" #'eglot-find-declaration)
+	:config
+	(setq-default eglot-workspace-configuration
+                '((haskell
+                   (plugin
+                    (stan
+                     (globalOn . :json-false))))))  ;; disable stan
+	)
+  ;; :custom
+  ;; (eglot-autoshutdown t)  ;; shutdown language server after closing last file
+  ;; (eglot-confirm-server-initiated-edits nil)  ;; allow edits without confirmation
+;; (use-package lsp-mode
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;; 	(add-hook 'prog-mode-hook #'lsp)
+;; 	(setq read-process-output-max (* 1024 1024))
+;; 	(setq gc-cons-threshold 100000000)
+;;   (setenv "LSP_USE_PLISTS" "true")
+;; 	(setq lsp-use-plist t)
+;;   (setq lsp-modeline-diagnostics-enable t)
+;; 	(setq lsp-headerline-breadcrumb-segments nil)
+;;   (lsp-headerline--disable-breadcrumb)
+;;   )
 
+(use-package lsp-haskell
+	:config
+	(add-hook 'haskell-mode-hook #'lsp)
+	(add-hook 'haskell-literate-mode-hook #'lsp)
+	)
 (use-package dap-mode)
 
 (use-package haskell-mode
   :config
-  (setq haskell-interactive-popup-errors nil))
+  (setq haskell-interactive-popup-errors nil)
+	(add-hook 'haskell-cabal-mode #'electric-indent-mode)
+	)
 
 (use-package kotlin-mode)
 
@@ -155,8 +198,8 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (when (file-directory-p "~/code")
-   (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
+	(when (file-directory-p "~/code")
+		(setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package consult
@@ -177,6 +220,7 @@
 							("C-+" . pdf-view-enlarge)
 							("C--" . pdf-view-shrink))
 	:init (pdf-loader-install)
+	:config
 	:config (add-to-list 'revert-without-query ".pdf")
 	)
 (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
