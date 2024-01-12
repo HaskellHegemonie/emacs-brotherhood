@@ -74,7 +74,10 @@
   (setq org-agenda-files `("~/orgRoam/agenda/schedule.org"))
   (setq org-agenda-span 14)
   :bind
-  (("C-c o a" . 'org-agenda)
+  (("C-c o l" . #'org-store-link)
+	 ("C-c o a" . 'org-agenda)
+   ("C-c o c" . #'org-capture) ;; recommendet [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
+	 ("C-c o y" . #'org-insert-link)
    ("C-c o s" . 'org-schedule)
    ("C-c o t" . 'org-todo)
    ("C-c o r" . 'org-refile)
@@ -85,14 +88,14 @@
    ("C-c o _" . 'org-timer-stop)
    ("C-c o 0" . 'org-timer-start)
    ("C-c o ." . 'org-time-stamp)
-   ("C-c o c" . #'org-capture)
    ("C-c o x" . #'org-toggle-checkbox)))
 
 (use-package org-roam
   :custom
   (org-roam-directory "~/orgRoam")
   :bind
-  (("C-c o l" . #'org-roam-buffer-toggle)
+  (
+	 ;; ("C-c o l" . #'org-roam-buffer-toggle)
    ("C-c o f" . #'org-roam-node-find)
    ("C-c o i" . #'org-roam-node-insert)
    ("C-c o n" . #'org-roam-dailies-capture-date)
@@ -132,6 +135,7 @@
 	(define-key eglot-keymap "d" #'eglot-find-declaration)
 	(define-key eglot-keymap "f" #'eglot-format)
 	:bind (
+				 ("C-l" . #'eglot-keymap)
 				 ("C-l a" . #'eglot-code-actions)
 				 ("C-l r" . #'eglot-rename)
 				 ("C-l f" . #'eglot-format)
