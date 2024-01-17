@@ -75,22 +75,31 @@
   (setq org-agenda-span 14)
 	(setq org-default-notes-file (concat org-working-directory "/captures.org"))
 	(setq org-agenda-files nil) ;; want to set this with C-c [ per project
-  :bind
-  (("C-c o l" . #'org-store-link)
+	(setq org-confirm-babel-evaluate nil)
+	:bind
+	(("C-c o l" . #'org-store-link)
 	 ("C-c o a" . 'org-agenda)
-   ("C-c o c" . #'org-capture) ;; recommendet [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
+	 ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
 	 ("C-c o y" . #'org-insert-link)
-   ("C-c o s" . 'org-schedule)
-   ("C-c o t" . 'org-todo)
-   ("C-c o r" . 'org-refile)
-   ("C-c o d" . 'org-deadline)
-   ("C-c o ;" . 'org-timer-set-timer)
-   ("C-c o !" . #'org-time-stamp-inactive)
-   ("C-c o ," . 'org-timer-pause-or-continue)
-   ("C-c o _" . 'org-timer-stop)
-   ("C-c o 0" . 'org-timer-start)
-   ("C-c o ." . 'org-time-stamp)
-   ("C-c o x" . #'org-toggle-checkbox)))
+	 ("C-c o s" . 'org-schedule)
+	 ;; ("C-c o t" . 'org-todo)
+	 ("C-c o r" . 'org-refile)
+	 ("C-c o d" . 'org-deadline)
+	 ("C-c o ;" . 'org-timer-set-timer)
+	 ("C-c o !" . #'org-time-stamp-inactive)
+	 ("C-c o ," . 'org-timer-pause-or-continue)
+	 ("C-c o _" . 'org-timer-stop)
+	 ("C-c o 0" . 'org-timer-start)
+	 ("C-c o ." . 'org-time-stamp)
+	 ("C-c o x" . #'org-toggle-checkbox)
+
+	 ;; babel stuff
+	 ("C-c o g" . #'org-babel-goto-named-src-block)
+	 ("C-c o t" . #'org-babel-tangle)
+	 ("C-c o e" . #'org-babel-detangle)
+	 )
+	:hook
+	(org-mode . org-indent-mode))
 
 (use-package org-roam
   :custom
