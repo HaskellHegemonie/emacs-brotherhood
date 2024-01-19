@@ -14,8 +14,7 @@ in
     evil-collection
     use-package
 
-    lsp-mode
-    lsp-haskell
+    # lsp-haskell
     dap-mode
     nix-mode
     rust-mode

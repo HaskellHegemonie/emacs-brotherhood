@@ -145,15 +145,20 @@
 	(define-key eglot-keymap "t" #'eglot-find-typeDefinition)
 	(define-key eglot-keymap "d" #'eglot-find-declaration)
 	(define-key eglot-keymap "f" #'eglot-format)
+	(setq eldoc-echo-area-use-multiline-p nil)
 	:bind (
-				 ("C-l" . #'eglot-keymap)
-				 ("C-l a" . #'eglot-code-actions)
-				 ("C-l r" . #'eglot-rename)
-				 ("C-l f" . #'eglot-format)
-				 ("C-l i" . #'eglot-find-imlementation)
-				 ("C-l t" . #'eglot-find-typeDefinition)
-				 ("C-l d" . #'eglot-find-declaration)
+				 ;; ("C-l" . #'eglot-keymap)
+				 ;; ("C-l a" . #'eglot-code-actions)
+				 ;; ("C-l r" . #'eglot-rename)
+				 ;; ("C-l f" . #'eglot-format)
+				 ;; ("C-l i" . #'eglot-find-imlementation)
+				 ;; ("C-l t" . #'eglot-find-typeDefinition)
+				 ;; ("C-l d" . #'eglot-find-declaration)
+				 ("M-j" . flymake-goto-next-error)
+				 ("M-k" . flymake-goto-prev-error)
 				 )
+	:hook
+	(haskell-mode-hook . eglot-ensure)
 	:config
 	(setq-default eglot-workspace-configuration
                 '((haskell
