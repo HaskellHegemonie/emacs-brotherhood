@@ -47,6 +47,8 @@ in
     bazel
     auctex
     cdlatex
+    eimp
+    rg
   ];
   # overrides = (self: super: rec {
   #   haskell-mode = self.melpaPackages.haskell-mode;

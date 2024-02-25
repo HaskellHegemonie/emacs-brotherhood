@@ -144,6 +144,31 @@
   (setq org-default-notes-file (concat org-working-directory "/captures.org"))
   (setq org-agenda-files nil) ;; want to set this with C-c [ per project
   (setq org-confirm-babel-evaluate nil)
+
+
+  ;; Original value was
+  ;; (("a" . "export ascii")
+  ;;  ("c" . "center")
+  ;;  ("C" . "comment")
+  ;;  ("e" . "example")
+  ;;  ("E" . "export")
+  ;;  ("h" . "export html")
+  ;;  ("l" . "export latex")
+  ;;  ("q" . "quote")
+  ;;  ("s" . "src")
+  ;;  ("v" . "verse"))
+  (setq org-structure-template-alist
+        '(("a" . "export ascii")
+          ("c" . "center")
+          ("C" . "comment")
+          ("e" . "src elisp")
+          ("E" . "export")
+          ("h" . "src haskell")
+          ("l" . "export latex")
+          ("q" . "quote")
+          ("s" . "src")
+          ("v" . "verse"))
+        )
   :bind
   (("C-c o l" . #'org-store-link)
    ("C-c o a" . 'org-agenda)

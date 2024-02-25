@@ -174,7 +174,7 @@
     ("C-c c a" . #'consult-org-agenda))
 #+end_src
 
-* Org
+* Extra
 ** Org
 #+begin_src elisp
   (use-package org
@@ -199,16 +199,16 @@
     ;;  ("s" . "src")
     ;;  ("v" . "verse"))
     (setq org-structure-template-alist
-          (("a" . "export ascii")
-           ("c" . "center")
-           ("C" . "comment")
-           ("e" . "src elisp")
-           ("E" . "export")
-           ("h" . "src haskell")
-           ("l" . "export latex")
-           ("q" . "quote")
-           ("s" . "src")
-           ("v" . "verse"))
+          '(("a" . "export ascii")
+            ("c" . "center")
+            ("C" . "comment")
+            ("e" . "src elisp")
+            ("E" . "export")
+            ("h" . "src haskell")
+            ("l" . "export latex")
+            ("q" . "quote")
+            ("s" . "src")
+            ("v" . "verse"))
           )
     :bind
     (("C-c o l" . #'org-store-link)
@@ -253,6 +253,10 @@
     (org-roam-setup)
     (setq org-roam-dailies-directory "journal/"))
 #+end_src
+** eimp
+#+begin_src elisp
+  (use-package eimp)
+#+end_src
 * Dev
 ** Magit
 #+begin_src elisp
@@ -263,6 +267,19 @@
      )
     :config
     (setq transient-default-level 7))
+#+end_src
+
+** Projectile                                                         :todo:
+#+begin_src elisp
+  (use-package projectile
+    :config
+    (projectile-mode)
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (when (file-directory-p "~/code")
+      (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
+    (setq projectile-switch-project-action #'projectile-dired))
 #+end_src
 
 ** Eglot                                                          :lsp:todo:
@@ -300,19 +317,6 @@
                        (globalOn . :json-false))))))  ;; disable stan
     )
 #+end_src
-** Projectile                                                         :todo:
-#+begin_src elisp
-  (use-package projectile
-    :config
-    (projectile-mode)
-    :bind-keymap
-    ("C-c p" . projectile-command-map)
-    :init
-    (when (file-directory-p "~/code")
-      (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
-    (setq projectile-switch-project-action #'projectile-dired))
-#+end_src
-
 * Modes
 ** Dap                                                            :lsp:todo:
 #+begin_src elisp
