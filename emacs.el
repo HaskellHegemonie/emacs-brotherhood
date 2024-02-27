@@ -209,6 +209,16 @@
   (org-roam-setup)
   (setq org-roam-dailies-directory "journal/"))
 
+(use-package erc
+  :config
+  (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
+  (setq erc-server "irc.libera.chat")
+  (setq erc-nick "hosklla'")
+  ;; (setq erc-auto-query 'bury)
+  (setq erc-fill-column 100)
+  (setq erc-fill-function 'erc-fill-static)
+  (setq erc-fill-static-center 20))
+
 (use-package magit
   :bind
   (
