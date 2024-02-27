@@ -227,6 +227,21 @@
   :config
   (setq transient-default-level 7))
 
+(use-package forge
+  :after magit
+  :config
+  (setq auth-sources '("~/.authinfo.gpg")))
+
+(use-package projectile
+  :config
+  (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/code")
+    (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
 (use-package eglot
   :hook (prog-mode-hook . eglot-ensure)
   :config
@@ -259,16 +274,6 @@
                     (stan
                      (globalOn . :json-false))))))  ;; disable stan
   )
-
-(use-package projectile
-  :config
-  (projectile-mode)
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/code")
-    (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
-  (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package dap-mode)
 

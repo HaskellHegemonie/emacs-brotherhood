@@ -8,6 +8,7 @@ in
   enable = true;
   extraPackages = epkgs: with epkgs; [
     magit
+    forge
     org
     org-roam
     evil
