@@ -173,7 +173,12 @@
     ("C-c c h" . #'consult-org-heading)
     ("C-c c a" . #'consult-org-agenda))
 #+end_src
-
+** EPA/EGP
+#+begin_src elisp
+  (use-package epg
+    :config
+    (setq epg-pinentry-mode 'loopback))
+#+end_src
 * Extra
 ** Org
 #+begin_src elisp

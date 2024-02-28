@@ -136,6 +136,10 @@
   ("C-c c h" . #'consult-org-heading)
   ("C-c c a" . #'consult-org-agenda))
 
+(use-package epg
+  :config
+  (setq epg-pinentry-mode 'loopback))
+
 (use-package org
   :config
   (setq org-working-directory "~/code/O") ;; own variable
