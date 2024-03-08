@@ -257,6 +257,9 @@
   :config
   (setq auth-sources '("~/.authinfo.gpg")))
 
+;; weird evil-collection keybinds
+(use-package git-timemachine)
+
 (use-package projectile
   :config
   (projectile-mode)

@@ -10,6 +10,8 @@ in
     # git
     magit
     forge
+    git-timemachine
+
     org
     org-roam
     evil

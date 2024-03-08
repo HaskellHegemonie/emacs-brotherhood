@@ -309,7 +309,11 @@
         :config
         (setq auth-sources '("~/.authinfo.gpg")))
 #+end_src
-
+** git-timemachine                                                    :todo:
+#+begin_src elisp
+  ;; weird evil-collection keybinds
+  (use-package git-timemachine)
+#+end_src
 
 ** Projectile                                                         :todo:
 #+begin_src elisp
