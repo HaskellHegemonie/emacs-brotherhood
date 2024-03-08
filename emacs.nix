@@ -7,6 +7,7 @@ in
   package = pkgs.emacs29;
   enable = true;
   extraPackages = epkgs: with epkgs; [
+    # git
     magit
     forge
     org
