@@ -314,13 +314,11 @@
   ;; weird evil-collection keybinds
   (use-package git-timemachine)
 #+end_src
-** git-gutter                                                         :todo:
+** diff-hl
 #+begin_src elisp
-  (use-package git-gutter
-  ;; only shows on the leftmost window
-    :config
-    (global-git-gutter-mode +1)
-    )
+    (use-package diff-hl
+      :config
+        (global-diff-hl-mode))
 #+end_src
 
 ** Projectile                                                         :todo:

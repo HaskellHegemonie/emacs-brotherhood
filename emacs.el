@@ -260,11 +260,9 @@
 ;; weird evil-collection keybinds
 (use-package git-timemachine)
 
-(use-package git-gutter
-;; only shows on the leftmost window
+(use-package diff-hl
   :config
-  (global-git-gutter-mode +1)
-  )
+    (global-diff-hl-mode))
 
 (use-package projectile
   :config

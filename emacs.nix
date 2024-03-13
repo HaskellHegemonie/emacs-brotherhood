@@ -11,7 +11,7 @@ in
     magit
     forge
     git-timemachine
-    git-gutter
+    diff-hl
 
     org
     org-roam
