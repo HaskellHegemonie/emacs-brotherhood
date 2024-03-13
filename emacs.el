@@ -260,6 +260,12 @@
 ;; weird evil-collection keybinds
 (use-package git-timemachine)
 
+(use-package git-gutter
+;; only shows on the leftmost window
+  :config
+  (global-git-gutter-mode +1)
+  )
+
 (use-package projectile
   :config
   (projectile-mode)
