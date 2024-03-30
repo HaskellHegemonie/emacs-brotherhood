@@ -46,6 +46,9 @@ in
     all-the-icons
 
     keychain-environment
+
+    ement
+
     pdf-tools
     kotlin-mode
     unicode-math-input
@@ -54,6 +57,11 @@ in
     cdlatex
     eimp
     rg
+
+    # https://nixos.wiki/wiki/Julia says plots don't work within nixos :(
+    julia-mode
+    julia-repl
+    julia-vterm
   ];
   # overrides = (self: super: rec {
   #   haskell-mode = self.melpaPackages.haskell-mode;

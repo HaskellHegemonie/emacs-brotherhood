@@ -223,6 +223,8 @@
   (setq erc-fill-function 'erc-fill-static)
   (setq erc-fill-static-center 20))
 
+(use-package ement)
+
 (use-package magit
   :bind
   (
@@ -317,6 +319,10 @@
 (use-package nix-mode)
 
 (use-package rust-mode)
+
+(use-package julia-mode)
+(use-package julia-repl)
+(use-package julia-vterm)
 
 (use-package scala-mode)
 (use-package kotlin-mode)

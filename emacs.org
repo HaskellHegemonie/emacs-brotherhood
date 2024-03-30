@@ -270,6 +270,10 @@
     (setq erc-fill-function 'erc-fill-static)
     (setq erc-fill-static-center 20))
 #+end_src
+** Ement
+#+begin_src elisp
+  (use-package ement)
+#+end_src
 * Dev
 ** Magit
 #+begin_src elisp
@@ -388,6 +392,12 @@
 ** Rust
 #+begin_src elisp
   (use-package rust-mode)
+#+end_src
+** Julia
+#+begin_src elisp
+  (use-package julia-mode)
+  (use-package julia-repl)
+  (use-package julia-vterm)
 #+end_src
 ** Other
 #+begin_src elisp
