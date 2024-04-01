@@ -180,6 +180,15 @@
     (setq epg-pinentry-mode 'loopback))
 #+end_src
 * Extra
+** hsheg/Org
+#+begin_src elisp
+	(defun hsheg/tangle-save-in-org ()
+		(when
+				(string= (file-name-extension (buffer-file-name)) "org")
+			(org-babel-tangle)
+			)
+		)
+#+end_src
 ** Org
 #+begin_src elisp
   (use-package org
@@ -190,7 +199,7 @@
     (setq org-default-notes-file (concat org-working-directory "/captures.org"))
     (setq org-agenda-files nil) ;; want to set this with C-c [ per project
     (setq org-confirm-babel-evaluate nil)
-
+    (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
 
     ;; Original value was
     ;; (("a" . "export ascii")
@@ -239,6 +248,8 @@
      )
     :hook
     (org-mode . org-indent-mode))
+  ;; (after-save-hook . org-babel-tangle))
+
 #+end_src
 
 ** Org Roam
@@ -308,10 +319,10 @@
 #+end_src
 ** forge
 #+begin_src elisp
-      (use-package forge
-        :after magit
-        :config
-        (setq auth-sources '("~/.authinfo.gpg")))
+  (use-package forge
+    :after magit
+    :config
+    (setq auth-sources '("~/.authinfo.gpg")))
 #+end_src
 ** git-timemachine                                                    :todo:
 #+begin_src elisp
@@ -320,9 +331,9 @@
 #+end_src
 ** diff-hl
 #+begin_src elisp
-    (use-package diff-hl
-      :config
-        (global-diff-hl-mode))
+  (use-package diff-hl
+    :config
+    (global-diff-hl-mode))
 #+end_src
 
 ** Projectile                                                         :todo:

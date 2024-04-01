@@ -140,6 +140,13 @@
   :config
   (setq epg-pinentry-mode 'loopback))
 
+(defun hsheg/tangle-save-in-org ()
+	(when
+			(string= (file-name-extension (buffer-file-name)) "org")
+		(org-babel-tangle)
+		)
+	)
+
 (use-package org
   :config
   (setq org-working-directory "~/code/O") ;; own variable
@@ -148,7 +155,7 @@
   (setq org-default-notes-file (concat org-working-directory "/captures.org"))
   (setq org-agenda-files nil) ;; want to set this with C-c [ per project
   (setq org-confirm-babel-evaluate nil)
-
+  (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
 
   ;; Original value was
   ;; (("a" . "export ascii")
@@ -197,6 +204,7 @@
    )
   :hook
   (org-mode . org-indent-mode))
+;; (after-save-hook . org-babel-tangle))
 
 (use-package org-roam
   :custom
@@ -264,7 +272,7 @@
 
 (use-package diff-hl
   :config
-    (global-diff-hl-mode))
+  (global-diff-hl-mode))
 
 (use-package projectile
   :config
