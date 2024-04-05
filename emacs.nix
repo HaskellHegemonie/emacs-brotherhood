@@ -62,6 +62,7 @@ in
     julia-mode
     julia-repl
     julia-vterm
+    mu4e
   ];
   # overrides = (self: super: rec {
   #   haskell-mode = self.melpaPackages.haskell-mode;

@@ -138,7 +138,8 @@
 
 (use-package epg
   :config
-  (setq epg-pinentry-mode 'loopback))
+  (setq epg-pinentry-mode 'loopback)
+  (setq epa-armor t))
 
 (defun hsheg/tangle-save-in-org ()
 	(when

@@ -177,7 +177,12 @@
 #+begin_src elisp
   (use-package epg
     :config
-    (setq epg-pinentry-mode 'loopback))
+    (setq epg-pinentry-mode 'loopback)
+    (setq epa-armor t))
+#+end_src
+** Mail
+*** mu4e
+#+begin_src elisp
 #+end_src
 * Extra
 ** hsheg/Org
