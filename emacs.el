@@ -141,6 +141,8 @@
   (setq epg-pinentry-mode 'loopback)
   (setq epa-armor t))
 
+
+
 (defun hsheg/tangle-save-in-org ()
 	(when
 			(string= (file-name-extension (buffer-file-name)) "org")
@@ -237,7 +239,8 @@
 (use-package magit
   :bind
   (
-   ("C-c g" . 'magit-dispatch)
+   ;; getting to the magit status buffer is C-x g by default
+   ("C-c g" . 'magit-file-dispatch)
    )
   :config
   (setq transient-default-level 7)
