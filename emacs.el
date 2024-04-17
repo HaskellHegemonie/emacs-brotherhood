@@ -241,6 +241,7 @@
   (
    ;; getting to the magit status buffer is C-x g by default
    ("C-c g" . 'magit-file-dispatch)
+   ("C-c i" . 'magit-init)
    )
   :config
   (setq transient-default-level 7)
@@ -330,14 +331,13 @@
 
 (use-package nix-mode)
 
+(use-package proof-general)
+
 (use-package rust-mode)
 
 (use-package julia-mode)
 (use-package julia-repl)
 (use-package julia-vterm)
-
-(use-package scala-mode)
-(use-package kotlin-mode)
 
 (use-package pdf-tools
   :commands (pdf-tools-install)

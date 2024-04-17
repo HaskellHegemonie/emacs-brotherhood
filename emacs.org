@@ -298,6 +298,7 @@
     (
      ;; getting to the magit status buffer is C-x g by default
      ("C-c g" . 'magit-file-dispatch)
+     ("C-c i" . 'magit-init)
      )
     :config
     (setq transient-default-level 7)
@@ -406,6 +407,10 @@
 #+begin_src elisp
   (use-package nix-mode)
 #+end_src
+** Coq
+#+begin_src elisp
+  (use-package proof-general)
+#+end_src
 ** Rust
 #+begin_src elisp
   (use-package rust-mode)
@@ -416,12 +421,6 @@
   (use-package julia-repl)
   (use-package julia-vterm)
 #+end_src
-** Other
-#+begin_src elisp
-  (use-package scala-mode)
-  (use-package kotlin-mode)
-#+end_src
-
 * Misc                                                                 :todo:
 #+begin_src elisp
   (use-package pdf-tools

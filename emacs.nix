@@ -25,7 +25,7 @@ in
     rust-mode
     cmake-mode
     haskell-mode
-    scala-mode
+    proof-general
 
     vterm
     projectile
@@ -50,9 +50,7 @@ in
     ement
 
     pdf-tools
-    kotlin-mode
     unicode-math-input
-    bazel
     auctex
     cdlatex
     eimp
