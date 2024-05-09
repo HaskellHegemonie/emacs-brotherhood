@@ -1,0 +1,59 @@
+% !TEX TS-program = pdflatexmk
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%% Vorlage für kleinere Arbeiten wie Proseminar, Hausarbeit etc.
+%%  Für Bachelor/Masterarbeiten ist es besser, die Templates
+%%  https://github.com/ugroh/AGFA-Master zu nutzen 
+%%  Stand: 2022/03/11
+%%  ulgr@fmath.uni-tuebingen.de
+%%  
+% Wir verwenden KOMA-Script als Basis
+% Marcus Kohm: KOMA-Script
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\documentclass[%				%  
+	,ngerman					%  
+	,fontsize	= 12pt		% aaskommentiert = 11pt		 	
+	,parskip	= half-		% Absatz mit Leerzeile
+	,BCOR		= 10mm		% Bindekorrektur fuer Klemmmappe
+	,leqno					% Nummern der Formeln etc. Links
+	,abstract	= true		% Zusammenfassung
+	,headings	= small		% oder large oder normal
+	,DIV		= calc		% Aufteilung der Seite
+	]{scrartcl}   			% KOMA-Script als Basis; https://komascript.de/~mkohm/scrguide.pdf
+
+%% -- Die Vorlagen
+%% --
+\input{./preamble/SEM-art}	% Layout etc. bitte nicht ändern
+\input{./preamble/SEM-defn}	% Einige sinnvolle Definitioen
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\definecolor{ArgentinianBlue}{rgb}{0.424, 0.706, 0.933}
+\colorlet{shadecolor}{ArgentinianBlue!15!white}
+\usepackage{tikz-cd}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{arrows}
+\hfuzz = 100cm 
+
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}							% Siehe SEM-ReadMe.pdf für Erläuterungen
+%% -- Eigene Definitionen
+%% --
+\input{./preamble/My-defn}	% Die eigenen Definitionen
+							% Bitte die Definitionen in SEM-defn.tex beachten
+%% --
+\begin{document}
+
+%% -- Die üblichen Angaben
+\input{preamble/preamble_title}
+\pagestyle{headings}
+
+
+% \maketitle
+%% --
+\input{./content/Master}	%% meine Ausführungen; auskommentieren
+%\input{./content/MeinText} %% 
+%% --
+\end{document}
