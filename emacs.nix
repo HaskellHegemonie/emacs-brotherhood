@@ -26,9 +26,13 @@ in
     cmake-mode
     haskell-mode
     proof-general
+    agda2-mode
+    popper
+    # god-mode
+    # xah-fly-keys
 
     vterm
-    projectile
+    # projectile
 
     # search engine
     vertico

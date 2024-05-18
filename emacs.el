@@ -114,6 +114,21 @@
   "Ewin"
   evil-window-maps)
 
+(use-package popper
+  :ensure t ; or :straight t
+  :bind (("C-`"   . popper-toggle)
+         ("M-`"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))                ; For echo area hints
+
 (use-package vertico
   :config
   (vertico-mode 1))
@@ -279,16 +294,6 @@
   :config
   (global-diff-hl-mode))
 
-(use-package projectile
-  :config
-  (projectile-mode)
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/code")
-    (setq projectile-project-search-path '("~/code" "~/nixos" "~/org")))
-  (setq projectile-switch-project-action #'projectile-dired))
-
 (use-package eglot
   :hook (prog-mode-hook . eglot-ensure)
   :config
@@ -333,6 +338,8 @@
 
 (use-package proof-general)
 
+(use-package agda2-mode)
+
 (use-package rust-mode)
 
 (use-package julia-mode)
@@ -352,3 +359,4 @@
   :config (add-to-list 'revert-without-query ".pdf")
   )
 (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
+(setq backup-directory-alist `(("." . "~/.saves")))
