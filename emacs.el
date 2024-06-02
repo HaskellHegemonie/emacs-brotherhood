@@ -239,6 +239,7 @@
   (org-roam-setup)
   (setq org-roam-dailies-directory "journal/"))
 
+(require 'tls)
 (use-package erc
   :config
   (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
@@ -250,6 +251,27 @@
   (setq erc-fill-static-center 20))
 
 (use-package ement)
+
+(use-package net-utils
+  :custom
+  (netstat-program "ss")
+  ;; (netstat-program-options '("-tunlp"))
+  (ifconfig-program "ip")
+  (ifconfig-program-options '("a"))
+
+  :bind
+  (
+   ("C-c p s" . proced)
+   ("C-c n n" . netstat)
+   ("C-c n p" . ping)
+   ("C-c n i" . ifconfig)
+   ("C-c n l" . nslookup-host)
+   ("C-c n d" . dig)
+   ("C-c n s" . smbclient)
+   ("C-c n f" . finger)
+   ("C-c n w" . whois)
+   )
+  )
 
 (use-package magit
   :bind
@@ -333,6 +355,11 @@
   :config
   (setq haskell-interactive-popup-errors nil)
   (add-hook 'haskell-cabal-mode #'electric-indent-mode))
+
+(use-package agda2-mode
+  :custom
+  (agda2-program-args . '("--guardedness"))
+  )
 
 (use-package nix-mode)
 

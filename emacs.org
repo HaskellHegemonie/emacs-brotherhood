@@ -293,6 +293,7 @@
 #+end_src
 ** ERC
 #+begin_src elisp
+  (require 'tls)
   (use-package erc
     :config
     (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
@@ -306,6 +307,29 @@
 ** Ement
 #+begin_src elisp
   (use-package ement)
+#+end_src
+** net-utils
+#+begin_src elisp
+  (use-package net-utils
+    :custom
+    (netstat-program "ss")
+    ;; (netstat-program-options '("-tunlp"))
+    (ifconfig-program "ip")
+    (ifconfig-program-options '("a"))
+
+    :bind
+    (
+     ("C-c p s" . proced)
+     ("C-c n n" . netstat)
+     ("C-c n p" . ping)
+     ("C-c n i" . ifconfig)
+     ("C-c n l" . nslookup-host)
+     ("C-c n d" . dig)
+     ("C-c n s" . smbclient)
+     ("C-c n f" . finger)
+     ("C-c n w" . whois)
+     )
+    )
 #+end_src
 * Dev
 ** Magit
@@ -406,6 +430,13 @@
     :config
     (setq haskell-interactive-popup-errors nil)
     (add-hook 'haskell-cabal-mode #'electric-indent-mode))
+#+end_src
+** Agda
+#+begin_src elisp
+  (use-package agda2-mode
+    :custom
+    (agda2-program-args . '("--guardedness"))
+    )
 #+end_src
 ** Nix                                                                  :FP:
 #+begin_src elisp
