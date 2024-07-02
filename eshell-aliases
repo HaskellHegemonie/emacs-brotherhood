@@ -1,0 +1,4 @@
+alias doas sudo $*
+alias fd find-dired $PWD ""
+alias d dired $1
+alias ff find-file $1
