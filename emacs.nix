@@ -1,7 +1,4 @@
 {pkgs, ...}@inputs:
-let
-  files = [./private ./emacs.el];
-in
 {
   # emacs29 baby
   package = pkgs.emacs29;
@@ -25,8 +22,8 @@ in
     rust-mode
     cmake-mode
     haskell-mode
+    guix
     proof-general
-    agda2-mode
     popper
     # god-mode
     # xah-fly-keys
@@ -39,6 +36,7 @@ in
     marginalia
     orderless
     consult
+    sly
 
     doom-themes
     doom-modeline
@@ -48,6 +46,7 @@ in
     direnv
     rainbow-delimiters
     all-the-icons
+    haskell-emacs
 
     keychain-environment
 
