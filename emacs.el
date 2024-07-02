@@ -26,23 +26,28 @@
   :init
   (load-theme 'doom-one t))
 
-(setq make-backup-files nil)
-(setq tab-with 2)
-(setq indent-line-function 'noindent)
-(setq display-line-numbers-type t)
-(setq blink-cursor-mode nil)
-(setq truncate-lines 1)
-(setq standard-indent 2)
-(setq tab-width 2)
-(setq c-tab-always-indent nil)
-(setq c-syntactic-indentation nil)
-(setq-default indent-tabs-mode t)
-(setq-default tab-width 2)
-(setq scroll-margin 8)
-(setq display-line-numbers 'relative)
-(setq display-line-numbers-type 'relative)
-(setq eletric-indent-mode nil)
-(global-display-line-numbers-mode)
+(use-package emacs
+  :init
+  (global-display-line-numbers-mode)
+
+  :custom
+  (make-backup-files nil)
+  (tab-with 2)
+  (indent-line-function 'noindent)
+  (display-line-numbers-type t)
+  (blink-cursor-mode nil)
+  (truncate-lines 1)
+  (standard-indent 2)
+  (tab-width 2)
+  (c-tab-always-indent nil)
+  (c-syntactic-indentation nil)
+  (indent-tabs-mode t)
+  (tab-width 2)
+  (scroll-margin 8)
+  (display-line-numbers 'relative)
+  (display-line-numbers-type 'relative)
+  (eletric-indent-mode nil)
+  )
 
 (use-package keychain-environment
   :config
@@ -56,15 +61,20 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package evil
+  :custom
+  (evil-want-integration t)
+  (evil-want-keybinding nil)
+  (evil-want-C-g-bindings nil)
+  (evil-want-C-u-scroll t)
+  (evil-want-C-d-scroll t)
+  (evil-want-C-h-delete t)
+  (evil-insert-state-cursor 'box)
   :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-g-bindings nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-d-scroll t)
-  (setq evil-want-C-h-delete t)
-  :bind (
-         )
+  (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'Man-mode 'emacs)
+  ;; :bind (
+  ;; 			 )
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
@@ -88,7 +98,7 @@
   (define-key evil-visual-state-map (kbd "C-b") 'backward-char)
   (define-key evil-visual-state-map (kbd "C-y") 'yank)
   (define-key evil-visual-state-map (kbd "M-y") 'yank-pop)
-  (setq evil-insert-state-cursor 'box))
+  )
 
 (use-package evil-collection
   :after evil
@@ -138,9 +148,9 @@
   (marginalia-mode 1))
 
 (use-package orderless
-  :config
-  (setq orderless-matching-styles '(orderless-regexp))
-  (setq completion-styles '(orderless basic)))
+  :custom
+  (orderless-matching-styles '(orderless-regexp))
+  (completion-styles '(orderless basic)))
 
 (use-package consult
   :bind
@@ -152,28 +162,31 @@
   ("C-c c a" . #'consult-org-agenda))
 
 (use-package epg
-  :config
-  (setq epg-pinentry-mode 'loopback)
-  (setq epa-armor t))
+  :custom
+  (epg-pinentry-mode 'loopback)
+  (epa-armor t))
 
 
+
+(use-package eshell
+  :custom
+  (eshell-aliases-file "/etc/nixos/config/emacs/eshell-aliases")
+  )
 
 (defun hsheg/tangle-save-in-org ()
-	(when
-			(string= (file-name-extension (buffer-file-name)) "org")
-		(org-babel-tangle)
-		)
-	)
+  (when
+      (string= (file-name-extension (buffer-file-name)) "org")
+    (org-babel-tangle)
+    )
+  )
 
+(require 'org)
 (use-package org
-  :config
-  (setq org-working-directory "~/code/O") ;; own variable
-  (setq org-directory "~/orgRoam/agenda")
-  (setq org-agenda-span 14)
-  (setq org-default-notes-file (concat org-working-directory "/captures.org"))
-  (setq org-agenda-files nil) ;; want to set this with C-c [ per project
-  (setq org-confirm-babel-evaluate nil)
-  (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
+  :custom
+  (org-directory "~/orgRoam/agenda")
+  (org-agenda-span 14)
+  (org-agenda-files nil) ;; can also set with =C-c [= per project
+  (org-confirm-babel-evaluate nil)
 
   ;; Original value was
   ;; (("a" . "export ascii")
@@ -186,18 +199,20 @@
   ;;  ("q" . "quote")
   ;;  ("s" . "src")
   ;;  ("v" . "verse"))
-  (setq org-structure-template-alist
-        '(("a" . "export ascii")
-          ("c" . "center")
-          ("C" . "comment")
-          ("e" . "src elisp")
-          ("E" . "export")
-          ("h" . "src haskell")
-          ("l" . "export latex")
-          ("q" . "quote")
-          ("s" . "src")
-          ("v" . "verse"))
-        )
+  (org-structure-template-alist
+   '(("a" . "export ascii")
+     ("c" . "center")
+     ("C" . "comment")
+     ("e" . "src elisp")
+     ("E" . "export")
+     ("h" . "src haskell")
+     ("l" . "export latex")
+     ("q" . "quote")
+     ("s" . "src")
+     ("v" . "verse"))
+   )
+  :config
+  (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
   :bind
   (("C-c o l" . #'org-store-link)
    ("C-c o a" . 'org-agenda)
@@ -241,14 +256,14 @@
 
 (require 'tls)
 (use-package erc
-  :config
-  (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
-  (setq erc-server "irc.libera.chat")
-  (setq erc-nick "hosklla'")
-  ;; (setq erc-auto-query 'bury)
-  (setq erc-fill-column 100)
-  (setq erc-fill-function 'erc-fill-static)
-  (setq erc-fill-static-center 20))
+  :custom
+  (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
+  (erc-server "irc.libera.chat")
+  (erc-nick "hosklla'")
+  ;; (erc-auto-query 'bury)
+  (erc-fill-column 100)
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 20))
 
 (use-package ement)
 
@@ -356,10 +371,12 @@
   (setq haskell-interactive-popup-errors nil)
   (add-hook 'haskell-cabal-mode #'electric-indent-mode))
 
-(use-package agda2-mode
-  :custom
-  (agda2-program-args . '("--guardedness"))
-  )
+;; (use-package agda2-mode
+;;   :custom
+;;   (agda2-program-args '("--ignore-interfaces" "--local-interfaces" "--guardedness"))
+;;   )
+(load-file (let ((coding-system-for-read 'utf-8))
+             (shell-command-to-string "agda-mode locate")))
 
 (use-package nix-mode)
 
