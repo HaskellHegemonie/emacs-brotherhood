@@ -30,6 +30,15 @@
   :init
   (global-display-line-numbers-mode)
 
+  :bind
+  (
+   ("C-x C-h" . #'switch-to-buffer)
+   ("C-c C-<return>" . #'mode-line-other-buffer)
+   ("C-c C-d" . #'evil-scroll-down)
+   ("C-c C-u" . #'evil-scroll-up)
+   ("C-M-e" . #'eshell) 
+   )
+
   :custom
   (make-backup-files nil)
   (tab-with 2)
@@ -67,11 +76,14 @@
   (evil-want-C-g-bindings nil)
   (evil-want-C-u-scroll t)
   (evil-want-C-d-scroll t)
-  (evil-want-C-h-delete t)
-  (evil-insert-state-cursor 'box)
+  (evil-want-C-h-delete nil)
   :init
   (evil-set-initial-state 'eshell-mode 'emacs)
-  (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'eshell 'emacs)
+
+  (evil-set-initial-state 'shell-mode 'emacs)
+  (evil-set-initial-state 'shell 'emacs)
+
   (evil-set-initial-state 'Man-mode 'emacs)
   ;; :bind (
   ;; 			 )
@@ -98,6 +110,7 @@
   (define-key evil-visual-state-map (kbd "C-b") 'backward-char)
   (define-key evil-visual-state-map (kbd "C-y") 'yank)
   (define-key evil-visual-state-map (kbd "M-y") 'yank-pop)
+  (setq evil-insert-state-cursor 'box)
   )
 
 (use-package evil-collection
@@ -214,29 +227,25 @@
   :config
   (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
   :bind
-  (("C-c o l" . #'org-store-link)
-   ("C-c o a" . 'org-agenda)
-   ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
+  (("C-c o w" . #'org-store-link)
    ("C-c o y" . #'org-insert-link)
-   ("C-c o s" . 'org-schedule)
-   ;; ("C-c o t" . 'org-todo)
-   ("C-c o r" . 'org-refile)
-   ("C-c o d" . 'org-deadline)
-   ("C-c o ;" . 'org-timer-set-timer)
-   ("C-c o !" . #'org-time-stamp-inactive)
-   ("C-c o ," . 'org-timer-pause-or-continue)
-   ("C-c o _" . 'org-timer-stop)
-   ("C-c o 0" . 'org-timer-start)
-   ("C-c o ." . 'org-time-stamp)
-   ("C-c o x" . #'org-toggle-checkbox)
+   ("C-c o >" . #'org-goto-calendar)
+   ("C-c o <" . #'org-date-from-calendar)
+   ("C-c o a" . #'org-agenda)
+   ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
+   ("C-c o s" . #'org-schedule)
+   ("C-c o d" . #'org-deadline)
 
-   ;; babel stuff
-   ("C-c o g" . #'org-babel-goto-named-src-block)
-   ("C-c o t" . #'org-babel-tangle)
-   ("C-c o e" . #'org-babel-detangle)
+   ("C-c o ;" . #'org-timer-set-timer)
+   ("C-c o !" . #'org-time-stamp-inactive)
+   ("C-c o ," . #'org-timer-pause-or-continue)
+   ("C-c o _" . #'org-timer-stop)
+   ("C-c o 0" . #'org-timer-start)
+   ("C-c o ." . #'org-time-stamp)
    )
   :hook
-  (org-mode . org-indent-mode))
+  (org-mode . org-indent-mode)
+  )
 ;; (after-save-hook . org-babel-tangle))
 
 (use-package org-roam
@@ -390,17 +399,8 @@
 (use-package julia-repl)
 (use-package julia-vterm)
 
-(use-package pdf-tools
-  :commands (pdf-tools-install)
-  :mode "\\.pdf\\'"
-  :bind (:map pdf-view-mode-map
-              ("j" . pdf-view-next-line-or-next-page)
-              ("k" . pdf-view-previous-line-or-previous-page)
-              ("C-+" . pdf-view-enlarge)
-              ("C--" . pdf-view-shrink))
-  :init (pdf-loader-install)
-  :config
-  :config (add-to-list 'revert-without-query ".pdf")
-  )
-(add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
-(setq backup-directory-alist `(("." . "~/.saves")))
+;; (use-package pdf-tools
+;;   :mode "\\.pdf\\"
+;;   :config
+;;   (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
+;;   )
