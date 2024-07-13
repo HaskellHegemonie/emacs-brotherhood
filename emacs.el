@@ -201,19 +201,8 @@
   (org-agenda-files nil) ;; can also set with =C-c [= per project
   (org-confirm-babel-evaluate nil)
 
-  ;; Original value was
-  ;; (("a" . "export ascii")
-  ;;  ("c" . "center")
-  ;;  ("C" . "comment")
-  ;;  ("e" . "example")
-  ;;  ("E" . "export")
-  ;;  ("h" . "export html")
-  ;;  ("l" . "export latex")
-  ;;  ("q" . "quote")
-  ;;  ("s" . "src")
-  ;;  ("v" . "verse"))
   (org-structure-template-alist
-   '(("a" . "export ascii")
+   '(("a" . "export agda2")
      ("c" . "center")
      ("C" . "comment")
      ("e" . "src elisp")
@@ -227,7 +216,8 @@
   :config
   (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
   :bind
-  (("C-c o w" . #'org-store-link)
+  (
+   ("C-c o w" . #'org-store-link)
    ("C-c o y" . #'org-insert-link)
    ("C-c o >" . #'org-goto-calendar)
    ("C-c o <" . #'org-date-from-calendar)
@@ -236,17 +226,21 @@
    ("C-c o s" . #'org-schedule)
    ("C-c o d" . #'org-deadline)
 
-   ("C-c o ;" . #'org-timer-set-timer)
    ("C-c o !" . #'org-time-stamp-inactive)
    ("C-c o ," . #'org-timer-pause-or-continue)
+   ("C-c o ." . #'org-time-stamp)
+   ("C-c o ;" . #'org-timer-set-timer)
    ("C-c o _" . #'org-timer-stop)
    ("C-c o 0" . #'org-timer-start)
-   ("C-c o ." . #'org-time-stamp)
+
+
+   ("C-c C-o C-p" . #'org-set-property)
+   ("C-c C-o C-d" . #'org-insert-drawer)
+   ("C-c C-o C-h" . #'org-delete-property)
    )
   :hook
   (org-mode . org-indent-mode)
   )
-;; (after-save-hook . org-babel-tangle))
 
 (use-package org-roam
   :custom
