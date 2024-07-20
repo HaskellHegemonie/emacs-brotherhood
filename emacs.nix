@@ -37,6 +37,7 @@
     orderless
     consult
     sly
+    sly-asdf
 
     doom-themes
     doom-modeline

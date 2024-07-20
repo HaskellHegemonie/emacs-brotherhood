@@ -77,18 +77,16 @@
   (evil-want-C-u-scroll t)
   (evil-want-C-d-scroll t)
   (evil-want-C-h-delete nil)
-  :init
+
+  :config
+  (evil-mode 1)
+
   (evil-set-initial-state 'eshell-mode 'emacs)
   (evil-set-initial-state 'eshell 'emacs)
-
   (evil-set-initial-state 'shell-mode 'emacs)
   (evil-set-initial-state 'shell 'emacs)
 
   (evil-set-initial-state 'Man-mode 'emacs)
-  ;; :bind (
-  ;; 			 )
-  :config
-  (evil-mode 1)
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
   (define-key evil-normal-state-map (kbd "C-p") 'previous-line)
   (define-key evil-normal-state-map (kbd "C-n") 'next-line)
@@ -215,7 +213,7 @@
    )
   :config
   (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
-  :bind
+  :bind*
   (
    ("C-c o w" . #'org-store-link)
    ("C-c o y" . #'org-insert-link)
@@ -380,6 +378,7 @@
 ;;   )
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
+(setq default-input-method "Agda")
 
 (use-package nix-mode)
 
@@ -392,6 +391,14 @@
 (use-package julia-mode)
 (use-package julia-repl)
 (use-package julia-vterm)
+
+(require 'sly-autoloads)
+(use-package sly
+  :custom
+  (inferior-lisp-program "/run/current-system/sw/bin/sbcl")
+  )
+
+(use-package sly-asdf)
 
 ;; (use-package pdf-tools
 ;;   :mode "\\.pdf\\"
