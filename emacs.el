@@ -1,5 +1,82 @@
 (require 'use-package)
 
+(defmacro define (id &rest args)
+  (if (consp id)
+      `(defun ,(car id) ,(cdr id) ,@args)
+    `(setf  ,id ,@args)
+    )
+  )
+
+;; examples
+;; (define (fac n)
+;; 				(if (= n 1)
+;; 						1
+;; 					(* n (fac (- n 1)))
+;; 					)
+;; 				)
+;; (fac 5)
+;; (define foo 'bar)
+
+
+(defmacro λ (&rest body)
+  (define (partition list keys &optional acc)
+          (if list
+              (let
+                  ((head (car list)))
+                (if (member head keys)
+                    `(,acc . ,(cdr list))
+                  (partition (cdr list) keys (append acc (list head)))
+                  )
+                )
+            acc))
+  (define (convlist x)
+          (if (sequencep x)
+              x
+            (list x)))
+  ;; real code
+  (let*
+      ((arrows `(→ ->))
+       (res (partition body arrows))
+       (args (car res))
+       (body (cdr res)))
+    `(lambda ,(convlist args) ,@body)))
+
+
+(defalias 'symbol->string 'symbol-name)
+(defalias 'string->symbol 'intern)
+(defalias 'number->string 'number-to-string)
+(defalias 'string->number 'string-to-number)
+
+(define (id x)
+        x)
+
+(define id (λ x → x))
+
+(define (succ x)
+        (+ 1 x))
+(define (pred x)
+        (- 1 x))
+
+;; Haskellisierung
+(defalias 'elem 'member)
+(defalias 'filter 'cl-find-if-not) ;; doesn't work yet
+(defmacro foldr (function initial list)
+  `(seq-reduce ,function ,list ,initial))
+
+;; (filter (λ x → (= x 1)) (list 1 2 3 4 5 7 nil))
+
+(defmacro words (xs)
+  `(string-join ,xs " "))
+(defmacro intercalate (x xs)
+  `(string-join ,xs ,x))
+;; (words `("It's" "nice" "to" "be" "a" "Preiss"))
+;; (intercalate " " `("but" "it's" "higher" "to" "be" "a" "Bayer"))
+
+
+;; string-split seems ok
+(defmacro chunksOf (size list)
+  `(seq-partition ,list ,size))
+
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -28,16 +105,21 @@
 
 (use-package emacs
   :init
-  (global-display-line-numbers-mode)
+  ;; (global-display-line-numbers-mode)
 
+  (display-time-mode 1)
+  :hook
+  (prog-mode-hook . display-line-numbers-mode)
   :bind
   (
-   ("C-x C-h" . #'switch-to-buffer)
-   ("C-c C-<return>" . #'mode-line-other-buffer)
-   ("C-c C-d" . #'evil-scroll-down)
-   ("C-c C-u" . #'evil-scroll-up)
-   ("C-M-e" . #'eshell) 
+   ("C-x C-h" . #'switch-to-buffer) ;; oh yes
+   ("C-M-e" . #'eshell)
+   ("C-v" . #'universal-argument)
    )
+
+  :config
+  (define-key key-translation-map (kbd "M-t") [ersatz-meta-x])
+  (global-set-key [ersatz-meta-x] 'execute-extended-command)
 
   :custom
   (make-backup-files nil)
@@ -70,6 +152,9 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package evil
+  :init
+  (global-unset-key (kbd "C-v"))
+
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
@@ -78,6 +163,10 @@
   (evil-want-C-d-scroll t)
   (evil-want-C-h-delete nil)
 
+  :bind
+  (("C-c C-h" . #'mode-line-other-buffer)
+   ("C-M-v" . #'evil-visual-block)
+   ("C-v" . #'universal-argument))
   :config
   (evil-mode 1)
 
@@ -198,6 +287,8 @@
   (org-agenda-span 14)
   (org-agenda-files nil) ;; can also set with =C-c [= per project
   (org-confirm-babel-evaluate nil)
+  (setf org-src-window-setup 'current-window)
+  (setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
   (org-structure-template-alist
    '(("a" . "export agda2")
@@ -299,17 +390,17 @@
   :config
   (setq transient-default-level 7)
 
-  (setq magit-refresh-status-buffer t)
+  (setq magit-refresh-status-buffer nil)
   (setq auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p)
   (remove-hook 'magit-refs-sections-hook 'magit-insert-tags)
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
   (remove-hook 'magit-status-headers-hook 'magit-insert-tags-headers)
-  (setq magit-diff-highlight-indentation nil
-        magit-diff-highlight-trailing nil
-        magit-diff-paint-whitespace nil
-        magit-diff-highlight-hunk-body nil
-        magit-diff-refine-hunk nil)
+  (setq magit-diff-highlight-indentation t
+        magit-diff-highlight-trailing t
+        magit-diff-paint-whitespace t
+        magit-diff-highlight-hunk-body t
+        magit-diff-refine-hunk t)
 
   ;; No significant improvement for me
   ;; (remove-hook 'magit-status-headers-hook 'magit-insert-tags-header)
@@ -365,6 +456,15 @@
                      (globalOn . :json-false))))))  ;; disable stan
   )
 
+(use-package vterm)
+(use-package multi-vterm
+  :config
+  :bind
+  (("C-c l" . #'multi-vterm-next)
+   ("C-c h" . #'multi-vterm-prev)
+   ("C-c v" . #'multi-vterm)
+   ))
+
 (use-package dap-mode)
 
 (use-package haskell-mode
@@ -372,15 +472,184 @@
   (setq haskell-interactive-popup-errors nil)
   (add-hook 'haskell-cabal-mode #'electric-indent-mode))
 
-;; (use-package agda2-mode
-;;   :custom
-;;   (agda2-program-args '("--ignore-interfaces" "--local-interfaces" "--guardedness"))
-;;   )
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 (setq default-input-method "Agda")
 
-(use-package nix-mode)
+(use-package agda2-mode
+  :custom
+  (agda-input-user-translations
+   `(
+     ("GNA" . ("∇"))
+     ("xx" . ("×"))
+     ("x-" . ("¯"))
+     ("x#" . ("⍒"))
+     ("xl" . ("⎕"))
+     ("xe" . ("⍟"))
+     ("xp" . ("○"))
+     ("x," . ("⍝"))
+     ("x/" . ("÷"))
+     ))
+  )
+;; (defvar gnu-apl--symbols '(;; Top row
+;;                            ;; `
+;;                            ("diamond" "◊" "`")
+;;                            ;; 1
+;;                            ("diaeresis" "¨" "1")
+;;                            ("i-beam" "⌶" "!")
+;;                            ;; 2
+;;                            ("macron" "¯" "2")
+;;                            ("del-tilde" "⍫" "@")
+;;                            ;; 3
+;;                            ("less-than" "<" "3")
+;;                            ("del-stile" "⍒" "#")
+;;                            ;; 4
+;;                            ("less-than-or-equal-to" "≤" "4")
+;;                            ("delta-stile" "⍋" "$")
+;;                            ;; 5
+;;                            ("equals" "=" "5")
+;;                            ("circle-stile" "⌽" "%")
+;;                            ;; 6
+;;                            ("greater-than-or-equal-to" "≥" "6")
+;;                            ("circle-backslash" "⍉" "^")
+;;                            ;; 7
+;;                            ("greater-than" ">" "7")
+;;                            ("circled-minus" "⊖" "&")
+;;                            ;; 8
+;;                            ("not-equal-to" "≠" "8")
+;;                            ("circle-star" "⍟" "*")
+;;                            ;; 9
+;;                            ("logical-or" "∨" "9")
+;;                            ("down-caret-tilde" "⍱" "(")
+;;                            ;; 0
+;;                            ("logical-and" "∧" "0")
+;;                            ("up-caret-tilde" "⍲" ")")
+;;                            ;; -
+;;                            ("multiplication-sign" "×" "-")
+;;                            ("exclamation-mark" "!" "_")
+;;                            ;; =
+;;                            ("division-sign" "÷" "=")
+;;                            ("quad-divide" "⌹" "+")
+
+;;                            ;; First row
+;;                            ;; q
+;;                            ("question-mark" "?" "q")
+;;                            ;; w
+;;                            ("omega" "⍵" "w")
+;;                            ("omega-underbar" "⍹" "W")
+;;                            ;; e
+;;                            ("epsilon" "∊" "e")
+;;                            ("epsilon-underbar" "⍷" "E")
+;;                            ;; r
+;;                            ("rho" "⍴" "r")
+;;                            ;; t
+;;                            ("tilde" "∼" "t")
+;;                            ("tilde-diaeresis" "⍨" "T")
+;;                            ;; y
+;;                            ("uparrow" "↑" "y")
+;;                            ("yen-sign" "¥" "Y")
+;;                            ;; u
+;;                            ("downarrow" "↓" "u")
+;;                            ;; i
+;;                            ("iota" "⍳" "i")
+;;                            ("iota-underbar" "⍸" "I")
+;;                            ;; o
+;;                            ("circle" "○" "o")
+;;                            ("circle-diaeresis" "⍥" "O")
+;;                            ;; p
+;;                            ("star-operator" "⋆" "p")
+;;                            ("star-diaeresis" "⍣" "P")
+;;                            ;; [
+;;                            ("leftarrow" "←" "[")
+;;                            ("quote-quad" "⍞" "{")
+;;                            ;; ]
+;;                            ("rightarrow" "→" "]")
+;;                            ("zilde" "⍬" "}")
+;;                            ;; \
+;;                            ("right-tack" "⊢" "\\")
+;;                            ("left-tack" "⊣" "|")
+
+;;                            ;; Second row
+;;                            ;; a
+;;                            ("alpha" "⍺" "a")
+;;                            ("alpha-underbar" "⍶" "A")
+;;                            ;; s
+;;                            ("left-ceiling" "⌈" "s")
+;;                            ;; d
+;;                            ("left-floor" "⌊" "d")
+;;                            ;; f
+;;                            ("underscore" "_" "f")
+;;                            ("del-tilde" "⍫" "F")
+;;                            ;; g
+;;                            ("nabla" "∇" "g")
+;;                            ;; h
+;;                            ("increment" "∆" "h")
+;;                            ("delta-underbar" "⍙" "H")
+;;                            ;; j
+;;                            ("ring-operator" "∘" "j")
+;;                            ("jot-diaeresis" "⍤" "J")
+;;                            ;; k
+;;                            ("apostrophe" "'" "k")
+;;                            ("quad-diamond" "⌺" "K")
+;;                            ;; l
+;;                            ("quad" "⎕" "l")
+;;                            ("squish-quad" "⌷" "L")
+;;                            ;; ;
+;;                            ("down-tack-jot" "⍎" ";")
+;;                            ("identical-to" "≡" ":")
+;;                            ;; '
+;;                            ("up-tack-jot" "⍕" "'")
+;;                            ("not-identical-to" "≢" "\"")
+
+;;                            ;; Third row
+;;                            ;; z
+;;                            ("subset-of" "⊂" "z")
+;;                            ;; x
+;;                            ("superset-of" "⊃" "x")
+;;                            ("greek-letter-chi" "χ" "X")
+;;                            ;; c
+;;                            ("intersection" "∩" "c")
+;;                            ("left-shoe-stile" "⍧" "C")
+;;                            ;; v
+;;                            ("union" "∪" "v")
+;;                            ;; b
+;;                            ("up-tack" "⊥" "b")
+;;                            ("pound-sign" "£" "B")
+;;                            ;; n
+;;                            ("down-tack" "⊤" "n")
+;;                            ;; m
+;;                            ("divides" "|" "m")
+;;                            ;; ,
+;;                            ("shoe-jot" "⍝" ",")
+;;                            ("comma-bar" "⍪" "<")
+;;                            ;; .
+;;                            ("backslash-bar" "⍀" ">")
+;;                            ;; /
+;;                            ("slash-bar" "⌿" "/")
+;;                            ("quad-colon" "⍠" "?")
+
+;;                            ;; Extras
+;;                            ("pi" "π")
+;;                            ("root" "√")
+;;                            ("inverted-exclamation-mark" "¡")
+;;                            ("quad-backslash" "⍂")
+;;                            ("inverted-question-mark" "¿")
+;;                            ))
+
+(use-package gnu-apl-mode)
+
+(use-package purescript-mode)
+
+(use-package racket-mode)
+(use-package geiser)
+(use-package quack)
+
+(use-package nix-mode
+  :bind
+  (("C-M-n" . #'nix-repl))
+  )
+
+(use-package nim-mode)
 
 (use-package proof-general)
 
@@ -396,9 +665,18 @@
 (use-package sly
   :custom
   (inferior-lisp-program "/run/current-system/sw/bin/sbcl")
+  :bind
+  (("C-c C-s C-n" . #'sly-stickers-next-sticker)
+   ("C-c C-s C-p" . #'sly-stickers-prev-sticker)
+   ("C-c C-s C-h" . #'sly-stickers-replay-prev)
+   ("C-c C-s C-l" . #'sly-stickers-replay-next)
+   ("C-c C-s C-j" . #'sly-stickers-replay-jump)
+   )
   )
 
 (use-package sly-asdf)
+
+
 
 ;; (use-package pdf-tools
 ;;   :mode "\\.pdf\\"

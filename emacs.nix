@@ -22,6 +22,11 @@
     rust-mode
     cmake-mode
     haskell-mode
+    gnu-apl-mode
+    purescript-mode
+    psc-ide
+    nim-mode
+    racket-mode
     guix
     proof-general
     popper
@@ -29,6 +34,7 @@
     # xah-fly-keys
 
     vterm
+    multi-vterm
     # projectile
 
     # search engine
@@ -36,8 +42,14 @@
     marginalia
     orderless
     consult
+    corfu
     sly
     sly-asdf
+
+    racket-mode
+    quack
+    geiser
+    geiser-racket
 
     doom-themes
     doom-modeline
