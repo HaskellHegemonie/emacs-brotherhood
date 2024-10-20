@@ -604,16 +604,30 @@
     (agda-input-user-translations
      `(
        ("GNA" . ("∇"))
+       ("o|" . ("⌽"))
+
        ("xx" . ("×"))
        ("x-" . ("¯"))
        ("x#" . ("⍒"))
        ("xl" . ("⎕"))
        ("xe" . ("⍟"))
        ("xp" . ("○"))
-       ("x," . ("⍝"))
+       ("xc" . ("⍝"))
        ("x/" . ("÷"))
+       ("x\\" . ("⍉"))
+       ("xu" . ("⍋"))
+       ("xd" . ("⍒"))
+       ("xs" . ("⍪"))
+       ("xb" . ("⍎"))
+       ("xt" . ("⍕"))
+       ("xn" . ("⌿"))
+       ("xN" . ("⍀"))
+       ("xo_" . ("⍛"))
+       ("o\"" . ("⍤"))
+       ("O\"" . ("⍥"))
        ))
     )
+
   ;; (defvar gnu-apl--symbols '(;; Top row
   ;;                            ;; `
   ;;                            ("diamond" "◊" "`")
@@ -750,7 +764,7 @@
   ;;                            ;; /
   ;;                            ("slash-bar" "⌿" "/")
   ;;                            ("quad-colon" "⍠" "?")
-                           
+
   ;;                            ;; Extras
   ;;                            ("pi" "π")
   ;;                            ("root" "√")
@@ -786,10 +800,6 @@
 ** Coq
 #+begin_src elisp
   (use-package proof-general)
-#+end_src
-** Agda
-#+begin_src elisp
-  (use-package agda2-mode)
 #+end_src
 ** Rust
 #+begin_src elisp

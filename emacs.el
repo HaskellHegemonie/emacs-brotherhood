@@ -174,29 +174,33 @@
   (evil-set-initial-state 'eshell 'emacs)
   (evil-set-initial-state 'shell-mode 'emacs)
   (evil-set-initial-state 'shell 'emacs)
+  (evil-set-initial-state 'comint-mode 'emacs)
+
+  (evil-set-initial-state #'mrepl 'emacs)
+  (evil-set-initial-state #'sly-db-mode 'emacs)
 
   (evil-set-initial-state 'Man-mode 'emacs)
-  (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-normal-state-map (kbd "C-p") 'previous-line)
-  (define-key evil-normal-state-map (kbd "C-n") 'next-line)
-  (define-key evil-normal-state-map (kbd "C-y") 'yank)
-  (define-key evil-normal-state-map (kbd "M-y") 'yank-pop)
-  (define-key evil-normal-state-map (kbd "C-f") 'forward-char)
-  (define-key evil-normal-state-map (kbd "C-b") 'backward-char)
+  (define-key evil-normal-state-map (kbd "C-e") #'move-end-of-line)
+  (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
+  (define-key evil-normal-state-map (kbd "C-n") #'next-line)
+  (define-key evil-normal-state-map (kbd "C-y") #'yank)
+  (define-key evil-normal-state-map (kbd "M-y") #'yank-pop)
+  (define-key evil-normal-state-map (kbd "C-f") #'forward-char)
+  (define-key evil-normal-state-map (kbd "C-b") #'backward-char)
 
-  (define-key evil-normal-state-map (kbd "M-n") 'evil-scroll-down)
-  (define-key evil-normal-state-map (kbd "M-p") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "M-n") #'evil-scroll-down)
+  (define-key evil-normal-state-map (kbd "M-p") #'evil-scroll-up)
 
-  (define-key evil-insert-state-map (kbd "M-n") 'evil-scroll-down)
-  (define-key evil-insert-state-map (kbd "M-p") 'evil-scroll-up)
+  (define-key evil-insert-state-map (kbd "M-n") #'evil-scroll-down)
+  (define-key evil-insert-state-map (kbd "M-p") #'evil-scroll-up)
 
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
-  (define-key evil-visual-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-visual-state-map (kbd "C-f") 'forward-char)
-  (define-key evil-visual-state-map (kbd "C-b") 'backward-char)
-  (define-key evil-visual-state-map (kbd "C-y") 'yank)
-  (define-key evil-visual-state-map (kbd "M-y") 'yank-pop)
+  (define-key evil-insert-state-map (kbd "C-g") #'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "TAB") #'tab-to-tab-stop)
+  (define-key evil-visual-state-map (kbd "C-e") #'move-end-of-line)
+  (define-key evil-visual-state-map (kbd "C-f") #'forward-char)
+  (define-key evil-visual-state-map (kbd "C-b") #'backward-char)
+  (define-key evil-visual-state-map (kbd "C-y") #'yank)
+  (define-key evil-visual-state-map (kbd "M-y") #'yank-pop)
   (setq evil-insert-state-cursor 'box)
   )
 
@@ -208,14 +212,16 @@
 (defvar evil-window-maps (make-sparse-keymap))
 
 (global-set-key (kbd "C-w") evil-window-maps)
-(define-key evil-window-maps (kbd "C-v") 'evil-window-vsplit)
-(define-key evil-window-maps (kbd "C-s") 'evil-window-split)
-(define-key evil-window-maps (kbd "C-l") 'evil-window-right)
-(define-key evil-window-maps (kbd "C-h") 'evil-window-left)
-(define-key evil-window-maps (kbd "C-j") 'evil-window-down)
-(define-key evil-window-maps (kbd "C-k") 'evil-window-up)
-(define-key evil-window-maps (kbd "C-q") 'delete-window)
-(define-key evil-window-maps (kbd "C-w") 'kill-region)
+(define-key evil-window-maps (kbd "C-v") #'evil-window-vsplit)
+(define-key evil-window-maps (kbd "C-s") #'evil-window-split)
+(define-key evil-window-maps (kbd "C-l") #'evil-window-right)
+(define-key evil-window-maps (kbd "C-h") #'evil-window-left)
+(define-key evil-window-maps (kbd "C-j") #'evil-window-down)
+(define-key evil-window-maps (kbd "C-k") #'evil-window-up)
+(define-key evil-window-maps (kbd "C-q") #'delete-window)
+(define-key evil-window-maps (kbd "C-w") #'kill-region)
+(define-key evil-window-maps (kbd "x") #'evil-window-exchange)
+(define-key evil-window-maps (kbd "=") #'balance-windows)
 (global-set-key (kbd "M-p") 'evil-scroll-up)
 (global-set-key (kbd "M-n") 'evil-scroll-down)
 (global-set-key (kbd "C-^") 'evil-buffer)
@@ -260,6 +266,30 @@
   ("C-c c b" . #'consult-buffer)
   ("C-c c h" . #'consult-org-heading)
   ("C-c c a" . #'consult-org-agenda))
+
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  )
+
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
+(use-package rg
+  :init
+  (global-unset-key (kbd "C-r"))
+  (keymap-global-unset "C-r")
+  :bind
+  (("C-r"  . #'rg)
+   ))
 
 (use-package epg
   :custom
@@ -481,16 +511,30 @@
   (agda-input-user-translations
    `(
      ("GNA" . ("∇"))
+     ("o|" . ("⌽"))
+
      ("xx" . ("×"))
      ("x-" . ("¯"))
      ("x#" . ("⍒"))
      ("xl" . ("⎕"))
      ("xe" . ("⍟"))
      ("xp" . ("○"))
-     ("x," . ("⍝"))
+     ("xc" . ("⍝"))
      ("x/" . ("÷"))
+     ("x\\" . ("⍉"))
+     ("xu" . ("⍋"))
+     ("xd" . ("⍒"))
+     ("xs" . ("⍪"))
+     ("xb" . ("⍎"))
+     ("xt" . ("⍕"))
+     ("xn" . ("⌿"))
+     ("xN" . ("⍀"))
+     ("xo_" . ("⍛"))
+     ("o\"" . ("⍤"))
+     ("O\"" . ("⍥"))
      ))
   )
+
 ;; (defvar gnu-apl--symbols '(;; Top row
 ;;                            ;; `
 ;;                            ("diamond" "◊" "`")
@@ -652,8 +696,6 @@
 (use-package nim-mode)
 
 (use-package proof-general)
-
-(use-package agda2-mode)
 
 (use-package rust-mode)
 
