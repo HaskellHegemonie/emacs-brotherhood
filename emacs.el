@@ -74,8 +74,68 @@
 
 
 ;; string-split seems ok
+(defmacro splitOn  (seperators xs)
+  `(string-split ,xs ,seperators))
+
 (defmacro chunksOf (size list)
   `(seq-partition ,list ,size))
+
+(defmacro sh (&rest args)
+  (let
+      ((test
+        (mapcar
+         (λ a →
+            (if (stringp a)
+                (format "\"%s\"" a)
+              (format "%s" a)
+              ))
+         args)))
+    `(shell-command-to-string ,(intercalate " " test))
+    )
+  )
+(defmacro sh+ (&rest args)
+  `(splitOn "\n" (sh ,@args)))
+;; (defmacro ⌷sh (index
+
+
+;; Allows this syntax
+;; (sh echo "hello")
+;; (sh nix-instantiate --eval -E  "<nixpkgs>")
+;; (define my-little-temp-dir (car (sh+ mktemp -d)))
+;; you may use my-little-temp-dir as an ordinary string
+;; (cd my-little-temp-dir)
+;; (pwd)
+;; (sh ls)
+
+;; A Lisp Language
+;; Noch schlechtere Ideen als "Schlechte Ideen"
+
+
+(defmacro ⌷ (idx seq)
+  `(cond
+    ((not (listp ,seq)) nil)
+    ((listp ',idx)
+     (mapcar
+      (λ i →
+         (cl-nth-value i ,seq)
+         )
+      ',idx
+      ))
+    (t
+     (cl-nth-value ,idx ,seq))
+    ))
+
+
+(defmacro ⍳ (length &optional adder)
+  `(cl-loop for x from 0 to ,length
+            collect (+ x (or ,adder 0))))
+
+;; (⌷ (0 9 2) (⍳ 10))
+;; (⌷ (0 0 0 0 0 3 2 1 0) '("Bayern" "des" "samma" "mia"))
+
+(defalias '↑ 'take)
+(defalias '↓ 'drop)
+;; (↑ 3 (⍳ 5 6))
 
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
@@ -555,6 +615,7 @@
      ("x<"  . ("⊂"))
      ("x>"  . ("⊃"))
      ("x0"  . ("⍬"))
+     ("xw"  . ("⍸"))
      ))
   )
 
