@@ -127,7 +127,7 @@
 
 
 (defmacro ⍳ (length &optional adder)
-  `(cl-loop for x from 0 to ,length
+  `(cl-loop for x from 0 until ,length
             collect (+ x (or ,adder 0))))
 
 ;; (⌷ (0 9 2) (⍳ 10))
@@ -368,6 +368,16 @@
   (
    ("C-c C-r" . #'recompile)
    )
+  )
+
+(use-package guix)
+
+(use-package geiser)
+(use-package geiser-guile)
+
+(use-package nix-mode
+  :bind
+  (("C-M-n" . #'nix-repl))
   )
 
 (defun hsheg/tangle-save-in-org ()
@@ -612,10 +622,12 @@
      ("x~"  . ("⍨"))
      ("x;"  . ("⋄"))
      ("x!"  . ("⌷"))
-     ("x<"  . ("⊂"))
-     ("x>"  . ("⊃"))
      ("x0"  . ("⍬"))
      ("xw"  . ("⍸"))
+     ("x,"  . ("⊂"))
+     ("x."  . ("⊃"))
+     ("x<"  . ("⊆"))
+     ("x>"  . ("⊇"))
      ))
   )
 
@@ -774,13 +786,7 @@
 (use-package purescript-mode)
 
 (use-package racket-mode)
-(use-package geiser)
 (use-package quack)
-
-(use-package nix-mode
-  :bind
-  (("C-M-n" . #'nix-repl))
-  )
 
 (use-package nim-mode)
 

@@ -19,6 +19,7 @@
     # lsp-haskell
     dap-mode
     nix-mode
+    nixos-options
     rust-mode
     cmake-mode
     haskell-mode
@@ -27,7 +28,7 @@
     psc-ide
     nim-mode
     racket-mode
-    guix
+    paredit
     proof-general
     popper
     # god-mode
@@ -48,8 +49,10 @@
 
     racket-mode
     quack
+    guix
     geiser
     geiser-racket
+    geiser-guile
 
     doom-themes
     doom-modeline
