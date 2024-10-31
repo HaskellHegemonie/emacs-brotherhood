@@ -135,6 +135,7 @@
 
 (defalias '↑ 'take)
 (defalias '↓ 'drop)
+(defalias '⍪  'concat)
 ;; (↑ 3 (⍳ 5 6))
 
 (setq inhibit-startup-screen t)
@@ -169,7 +170,9 @@
 
   (display-time-mode 1)
   :hook
-  (prog-mode-hook . display-line-numbers-mode)
+  (prog-mode . display-line-numbers-mode)
+  (prog-mode . toggle-input-method)
+  (tex-mode  . toggle-input-method)
   :bind
   (
    ("C-x C-h" . #'switch-to-buffer) ;; oh yes
@@ -185,7 +188,7 @@
   (make-backup-files nil)
   (tab-with 2)
   (indent-line-function 'noindent)
-  (display-line-numbers-type t)
+  ;; (display-line-numbers-type t)
   (blink-cursor-mode nil)
   (truncate-lines 1)
   (standard-indent 2)
@@ -372,7 +375,10 @@
 
 (use-package guix)
 
-(use-package geiser)
+(use-package geiser
+  :custom
+  (geiser-default-implementation 'guile)
+  )
 (use-package geiser-guile)
 
 (use-package nix-mode
@@ -531,7 +537,8 @@
   (global-diff-hl-mode))
 
 (use-package eglot
-  :hook (prog-mode-hook . eglot-ensure)
+  :hook
+  (prog-mode . eglot-ensure)
   :config
   (defvar eglot-keymap (make-sparse-keymap))
   (global-set-key (kbd "C-l") eglot-keymap)
@@ -789,6 +796,27 @@
   (
    ("C-c C-r" . (lambda () (interactive) (recompile) (delete-window)))
    )
+  :config
+  (define (apl-gen-header)
+          (interactive)
+          (let*
+              ((bfname (buffer-file-name (current-buffer)))
+               (curPoint (point))
+               (str
+                (⍪
+                 "⍝ " "-*- compile-command: \"dyalogscript "
+                 (file-name-base bfname)
+                 "."
+                 (file-name-extension bfname)
+                 "\"; -*-\n"
+                 )
+                )
+               )
+            (goto-char (point-min))
+            (insert str)
+            (hack-local-variables)
+            (goto-char (+ curPoint (length str)))
+            ))
   )
 
 (use-package purescript-mode)
