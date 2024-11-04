@@ -632,8 +632,8 @@
 ** Eglot                                                          :lsp:todo:
 #+begin_src elisp
   (use-package eglot
-    :hook
-    (prog-mode . eglot-ensure)
+    ;; :hook
+    ;; (prog-mode . eglot-ensure)
     :config
     (defvar eglot-keymap (make-sparse-keymap))
     (global-set-key (kbd "C-l") eglot-keymap)
@@ -703,18 +703,21 @@
        ("GNA" . ("∇"))
        ("Gr"  . ("⍴"))
        ("Gi"  . ("⍳"))
+       ("Gi_" . ("⍸"))
        ("Ge"  . ("∊"))
+       ("Ge_" . ("⍷"))
        ("Ga"  . ("⍺"))
        ("Gaa" . ("⍺⍺"))
        ("Go"  . ("⍵"))
        ("Goo" . ("⍵⍵"))
-       ("o|"  . ("⌽"))
        ("o\"" . ("⍤"))
        ("O\"" . ("⍥"))
        ("o."  . ("∘."))
        ("*\"" . ("⍣"))
        ("o_"  . ("⍛"))
        ("ol"  . ("⍉"))
+       ("op"  . ("⌽"))
+       ("on"  . ("⊖"))
 
        ("xx"  . ("×"))
        ("x*"  . ("×"))
@@ -738,16 +741,19 @@
        ("x."  . ("⊃"))
        ("x<"  . ("⊆"))
        ("x>"  . ("⊇"))
-       ("xi"  . ("⍸"))
        ("xw"  . ("∧"))
-       ("xw~"  . ("⍲"))
+       ("xw~" . ("⍲"))
+       ("xW"  . ("∩"))
        ("xv"  . ("∨"))
-       ("xv~"  . ("⍱"))
+       ("xv~" . ("⍱"))
+       ("xV"  . ("∪"))
        ("xr"  . ("÷"))
        ("xR"  . ("⌹"))
        ("xn"  . ("¯"))
        ("x/"  . ("⌿"))
-       ("x8"  . ("⌸"))
+       ("x="  . ("⌸"))
+       ("x'"  . ("⍞"))
+
        ))
     )
   ;; (defvar gnu-apl--symbols '(;; Top row
