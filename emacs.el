@@ -172,7 +172,12 @@
   :hook
   (prog-mode . display-line-numbers-mode)
   (prog-mode . toggle-input-method)
-  (tex-mode  . toggle-input-method)
+  (prog-mode . hl-line-mode)
+
+
+  (text-mode  . toggle-input-method)
+  (text-mode  . hl-line-mode)
+
   :bind
   (
    ("C-x C-h" . #'switch-to-buffer) ;; oh yes
