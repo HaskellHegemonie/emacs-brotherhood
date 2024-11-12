@@ -359,6 +359,14 @@
     (popper-mode +1)
     (popper-echo-mode +1))                ; For echo area hints
 #+end_src
+** Info
+#+begin_src elisp
+  (use-package info
+    :bind
+    ("C-d" . #'evil-scroll-down)
+    ("C-u" . #'evil-scroll-up)
+    )
+#+end_src
 ** Completion                                                         :todo:
 *** Vertico
 #+begin_src elisp

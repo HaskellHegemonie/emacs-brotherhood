@@ -313,6 +313,12 @@
   (popper-mode +1)
   (popper-echo-mode +1))                ; For echo area hints
 
+(use-package info
+  :bind
+  ("C-d" . #'evil-scroll-down)
+  ("C-u" . #'evil-scroll-up)
+  )
+
 (use-package vertico
   :config
   (vertico-mode 1))
