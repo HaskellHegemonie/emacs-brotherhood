@@ -23,6 +23,7 @@
     rust-mode
     cmake-mode
     haskell-mode
+    rust-mode
     gnu-apl-mode
     purescript-mode
     psc-ide

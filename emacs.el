@@ -317,6 +317,8 @@
   :bind
   ("C-d" . #'evil-scroll-down)
   ("C-u" . #'evil-scroll-up)
+  ;; ("j"   . #'evil-next-line)
+  ;; ("k"   . #'evil-previous-line)
   )
 
 (use-package vertico
@@ -406,6 +408,10 @@
 
 (require 'org)
 (use-package org
+  ;; :after consult
+  :hook
+  (org-mode . org-indent-mode)
+  (after-save . #'hsheg/tangle-save-in-org)
   :custom
   (org-directory "~/orgRoam/agenda")
   (org-agenda-span 14)
@@ -419,15 +425,15 @@
      ("c" . "center")
      ("C" . "comment")
      ("e" . "src elisp")
-     ("E" . "export")
      ("h" . "src haskell")
+     ("g" . "src scheme")
+     ("r" . "src rust")
+     ("E" . "export")
      ("l" . "export latex")
      ("q" . "quote")
      ("s" . "src")
      ("v" . "verse"))
    )
-  :config
-  (add-hook 'after-save-hook 'hsheg/tangle-save-in-org)
   :bind*
   (
    ("C-c o w" . #'org-store-link)
@@ -450,9 +456,8 @@
    ("C-c C-o C-p" . #'org-set-property)
    ("C-c C-o C-d" . #'org-insert-drawer)
    ("C-c C-o C-h" . #'org-delete-property)
+   ("C-c C-s" . #'consult-org-heading)
    )
-  :hook
-  (org-mode . org-indent-mode)
   )
 
 (use-package org-roam
@@ -835,6 +840,10 @@
             (goto-char (+ curPoint (length str)))
             ))
   )
+
+(use-package rust-mode
+  :hook
+  (rust-mode . (lambda () (setq indent-tabs-mode nil))))
 
 (use-package purescript-mode)
 
