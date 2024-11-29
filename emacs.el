@@ -1,3 +1,4 @@
+(setq lexical-binding t)
 (require 'use-package)
 
 (defmacro define (id &rest args)
@@ -178,7 +179,7 @@
   (text-mode  . toggle-input-method)
   (text-mode  . hl-line-mode)
 
-  :bind
+  :bind*
   (
    ("C-x C-h" . #'switch-to-buffer) ;; oh yes
    ("C-M-e" . #'eshell)
@@ -206,6 +207,7 @@
   (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
   (eletric-indent-mode nil)
+  (lexical-binding t)
   )
 
 (use-package keychain-environment
@@ -399,24 +401,33 @@
   (("C-M-n" . #'nix-repl))
   )
 
-(defun hsheg/tangle-save-in-org ()
-  (when
-      (string= (file-name-extension (buffer-file-name)) "org")
-    (org-babel-tangle)
-    )
-  )
-
 (require 'org)
 (use-package org
   ;; :after consult
+  :init
+  (defun hsheg/tangle-save-in-org ()
+    (when
+        (string= (file-name-extension (buffer-file-name (current-buffer))) "org")
+      (org-babel-tangle)
+      ))
   :hook
   (org-mode . org-indent-mode)
-  (after-save . #'hsheg/tangle-save-in-org)
+  (org-mode . org-num-mode)
+  (after-save . hsheg/tangle-save-in-org)
+  :config
   :custom
-  (org-directory "~/orgRoam/agenda")
+  (org-list-allow-alphabetical t)
+  ;; (org-directory "~/orgRoam/agenda")
   (org-agenda-span 14)
   (org-agenda-files nil) ;; can also set with =C-c [= per project
   (org-confirm-babel-evaluate nil)
+  (org-src-window-setup 'split-window-below)
+  (org-todo-keywords
+   `(
+     (sequence "TODO(t)" "DONE(d)")
+     (sequence "IN-PROGRESS(p)" "FIXED(f)" "KILLED(k)")
+     (sequence "LAZY(l)")
+     ))
   (setf org-src-window-setup 'current-window)
   (setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
@@ -436,12 +447,13 @@
    )
   :bind*
   (
-   ("C-c o w" . #'org-store-link)
+   ("C-c o l" . #'org-store-link)
+   ("C-c o a" . #'org-agenda)
+   ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
+
    ("C-c o y" . #'org-insert-link)
    ("C-c o >" . #'org-goto-calendar)
    ("C-c o <" . #'org-date-from-calendar)
-   ("C-c o a" . #'org-agenda)
-   ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
    ("C-c o s" . #'org-schedule)
    ("C-c o d" . #'org-deadline)
 
@@ -457,6 +469,17 @@
    ("C-c C-o C-d" . #'org-insert-drawer)
    ("C-c C-o C-h" . #'org-delete-property)
    ("C-c C-s" . #'consult-org-heading)
+   )
+  :bind
+  (:map
+   org-mode-map
+
+   ("M-l" . #'org-metaright)
+   ("M-h" . #'org-metaleft)
+   ("M-j" . #'org-metadown)
+   ("M-k" . #'org-metaup)
+
+   ("C-c t" . #'org-todo)
    )
   )
 
@@ -814,9 +837,28 @@
 ;;                            ))
 
 (use-package gnu-apl-mode
-  :bind
-  (
-   ("C-c C-r" . (lambda () (interactive) (recompile) (delete-window)))
+  :bind*
+  (:map gnu-apl-mode-map
+   ("C-c C-l" . (lambda
+                  ()
+                  (interactive)
+                  (let
+                      (
+                       (compile-command
+                        (or
+                         (cdr
+                          (assoc
+                           'compile-command
+                           file-local-variables-alist))
+                         (format
+                          "dyalogscript %s"
+                          (file-name-nondirectory
+                           (buffer-file-name
+                            (current-buffer))))))
+                       )
+                    (recompile)
+                    (delete-window)))
+    )
    )
   :config
   (define (apl-gen-header)
@@ -843,7 +885,34 @@
 
 (use-package rust-mode
   :hook
-  (rust-mode . (lambda () (setq indent-tabs-mode nil))))
+  (rust-mode . (lambda
+                 ()
+                 (setq indent-tabs-mode nil)))
+  :bind*
+  (:map rust-mode-map
+        ("C-c C-l" . (lambda
+                       ()
+                       (interactive)
+                       (setq-local compile-command "cargo run")
+                       (recompile)
+                       (delet-window)
+                       ))
+        ("C-c C-c C-x" . (lambda
+                       ()
+                       (interactive)
+                       (setq-local compile-command "cargo test")
+                       (recompile)
+                       (delet-window)
+                       ))
+        ("C-c C-c C-u" . (lambda
+                       ()
+                       (interactive)
+                       (setq-local compile-command "cargo check")
+                       (recompile)
+                       (delet-window)
+                       ))
+        )
+  )
 
 (use-package purescript-mode)
 
@@ -853,8 +922,6 @@
 (use-package nim-mode)
 
 (use-package proof-general)
-
-(use-package rust-mode)
 
 (use-package julia-mode)
 (use-package julia-repl)
