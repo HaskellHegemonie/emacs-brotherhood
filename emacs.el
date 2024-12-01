@@ -233,7 +233,7 @@
   (evil-want-C-d-scroll t)
   (evil-want-C-h-delete nil)
 
-  :bind
+  :bind*
   (("C-c C-h" . #'mode-line-other-buffer)
    ("C-M-v" . #'evil-visual-block)
    ("C-v" . #'universal-argument))
@@ -890,27 +890,29 @@
                  (setq indent-tabs-mode nil)))
   :bind*
   (:map rust-mode-map
-        ("C-c C-l" . (lambda
-                       ()
+        ("C-c C-l" . (lambda ()
                        (interactive)
                        (setq-local compile-command "cargo run")
                        (recompile)
-                       (delet-window)
+                       (delete-window)
                        ))
-        ("C-c C-c C-x" . (lambda
-                       ()
+        ("C-c C-c C-x" . (lambda ()
                        (interactive)
                        (setq-local compile-command "cargo test")
                        (recompile)
-                       (delet-window)
+                       (delete-window)
                        ))
-        ("C-c C-c C-u" . (lambda
-                       ()
+        ("C-c C-c C-u" . (lambda ()
                        (interactive)
                        (setq-local compile-command "cargo check")
                        (recompile)
-                       (delet-window)
+                       (delete-window)
                        ))
+        ("C-r C-h" . (lambda (documentation)
+                       (interactive "sSearch for: ")
+                       (shell-command (concat "rustup doc" documentation))
+                       ))
+
         )
   )
 
