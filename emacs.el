@@ -410,6 +410,10 @@
         (string= (file-name-extension (buffer-file-name (current-buffer))) "org")
       (org-babel-tangle)
       ))
+  (defun char-to-hex (char)
+    (interactive "cEnter char: ")
+    (format "%x" char)
+    )
   :hook
   (org-mode . org-indent-mode)
   (org-mode . org-num-mode)
@@ -470,10 +474,20 @@
    ("C-c C-o C-h" . #'org-delete-property)
    ("C-c C-s" . #'consult-org-heading)
    )
-  :bind
+  :bind*
   (:map
    org-mode-map
-
+   ("C-c C-l" . (lambda ()
+                  (interactive)
+                  ;; (setq-local compile-command (cdr (assoc 'hsheg-org-cc file-local-variables-alist)))
+                  (setq-local compile-command nil)
+                  (if compile-command
+                      (funcall compile-command)
+                    (progn
+                      (org-latex-export-to-pdf)
+                      )
+                    )
+                  ))
    ("M-l" . #'org-metaright)
    ("M-h" . #'org-metaleft)
    ("M-j" . #'org-metadown)
