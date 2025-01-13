@@ -184,6 +184,16 @@
    ("C-x C-h" . #'switch-to-buffer) ;; oh yes
    ("C-M-e" . #'eshell)
    ("C-v" . #'universal-argument)
+   ("C-c C-r" . (lambda ()
+                  (interactive)
+									(pcase major-mode
+										('agda2-mode (call-interactively 'agda2-refine))
+										(t (progn
+												 (recompile)
+												 (delete-window)
+												 )))
+									)
+		)
    )
 
   :config
@@ -204,7 +214,7 @@
   (indent-tabs-mode t)
   (tab-width 2)
   (scroll-margin 8)
-  (display-line-numbers 'relative)
+  ;; (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
   (eletric-indent-mode nil)
   (lexical-binding t)
@@ -382,16 +392,29 @@
   )
 
 (use-package project
-  :bind
-  (
-   ("C-c C-r" . #'recompile)
-   )
-  )
+	:bind
+	(
+	 ("C-x p r"
+		. (lambda ()
+				(interactive)
+				(project-recompile)
+				(delete-window)
+				))
+	 )
+	)
 
 (use-package guix)
 
 (use-package geiser
-  :custom
+	:config
+	;; (add-to-list 'geiser-guile-load-path (file-name-concat (getenv "GUIX_PROFILE") "share"))
+	;; (
+	 ;; (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix/")
+  ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix"))
+  ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/nonguix"))
+
+  ;; :c
+	ustom
   (geiser-default-implementation 'guile)
   )
 (use-package geiser-guile)
@@ -512,7 +535,6 @@
   (org-roam-setup)
   (setq org-roam-dailies-directory "journal/"))
 
-(require 'tls)
 (use-package erc
   :custom
   (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
@@ -640,13 +662,14 @@
   (add-hook 'haskell-cabal-mode #'electric-indent-mode))
 
 (load-file (let ((coding-system-for-read 'utf-8))
-             (shell-command-to-string "agda-mode locate")))
+						 (shell-command-to-string "agda-mode locate")))
 (setq default-input-method "Agda")
 
 (use-package agda2-mode
+
   :custom
   (agda-input-user-translations
-    ;; ⌈ ⌊?
+   ;; ⌈ ⌊?
    `(
      ("gl"  . ("\\"))
      ("GNA" . ("∇"))

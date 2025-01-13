@@ -3,88 +3,83 @@
   # emacs29 baby
   package = pkgs.emacs29;
   enable = true;
-  extraPackages = epkgs: with epkgs; [
-    # git
-    magit
-    forge
-    git-timemachine
-    diff-hl
+  extraPackages = epkgs: with epkgs;
+    let
+      essentials = [
+        # god-mode
+        # xah-fly-keys
+        # projectile
+        org
+        org-roam
+        evil
+        evil-collection
+        use-package
+        direnv
+        rainbow-delimiters
+        all-the-icons
+        paredit
+        vertico
+        marginalia
+        orderless
+        consult
+        corfu
+        pdf-tools
+        unicode-math-input
+        rg
+        eimp
+        mu4e
+        popper
+        doom-themes
+        doom-modeline
+        keychain-environment
+        vterm
+        multi-vterm
+        hl-todo
+        ement
+      ];
+      latex = [
+        auctex
+        cdlatex
+      ];
+      languages = [
+        # lsp-haskell
+        dap-mode
+        nix-mode
+        # nixos-options
+        rust-mode
+        # cmake-mode
+        haskell-mode
+        rust-mode
+        gnu-apl-mode
+        # purescript-mode
+        # psc-ide
+        # nim-mode
+        # racket-mode
+        
+        unison
+        unison-mode
+        unisonlang-mode
 
-    org
-    org-roam
-    evil
-    evil-collection
-    use-package
+        proof-general
 
-    # lsp-haskell
-    dap-mode
-    nix-mode
-    nixos-options
-    rust-mode
-    cmake-mode
-    haskell-mode
-    rust-mode
-    gnu-apl-mode
-    purescript-mode
-    psc-ide
-    nim-mode
-    racket-mode
-    paredit
-    proof-general
-    popper
-    # god-mode
-    # xah-fly-keys
+        sly
+        sly-asdf
 
-    vterm
-    multi-vterm
-    # projectile
-
-    # search engine
-    vertico
-    marginalia
-    orderless
-    consult
-    corfu
-    sly
-    sly-asdf
-
-    racket-mode
-    quack
-    guix
-    geiser
-    geiser-racket
-    geiser-guile
-
-    doom-themes
-    doom-modeline
-    # from doom
-    hl-todo
-    # modeline
-    direnv
-    rainbow-delimiters
-    all-the-icons
-    haskell-emacs
-
-    keychain-environment
-
-    ement
-
-    pdf-tools
-    unicode-math-input
-    auctex
-    cdlatex
-    eimp
-    rg
-
-    # https://nixos.wiki/wiki/Julia says plots don't work within nixos :(
-    julia-mode
-    julia-repl
-    julia-vterm
-    mu4e
-  ];
-  # overrides = (self: super: rec {
-  #   haskell-mode = self.melpaPackages.haskell-mode;
-  # });
-
+        racket-mode
+        quack
+        guix
+        geiser
+        geiser-racket
+        geiser-guile
+        haskell-emacs
+      ];
+      gitPackages = [
+        magit
+        forge
+        git-timemachine
+        diff-hl
+      ];
+    in
+      builtins.concatLists [ essentials latex languages gitPackages ]
   extraConfig = builtins.readFile ./emacs.el;
 }
