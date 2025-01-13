@@ -175,7 +175,7 @@
   (prog-mode . toggle-input-method)
   (prog-mode . hl-line-mode)
 
-
+  (text-mode  . display-line-numbers-mode)
   (text-mode  . toggle-input-method)
   (text-mode  . hl-line-mode)
 
