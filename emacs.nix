@@ -80,6 +80,6 @@
         diff-hl
       ];
     in
-      builtins.concatLists [ essentials latex languages gitPackages ]
+      builtins.concatLists [ essentials latex languages gitPackages ];
   extraConfig = builtins.readFile ./emacs.el;
 }

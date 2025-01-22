@@ -148,7 +148,7 @@
   (progn
     (keyboard-translate ?\C-t ?\C-x)
     (keyboard-translate ?\C-x ?\C-t)
-    (set-frame-font "JetBrainsMonoNerdFont 11" nil nil)
+    (set-frame-font "JetBrainsMonoNerdFont 10" nil nil)
     ))
 (add-hook 'after-make-frame-functions #'my-configure-init-frame)
 
@@ -672,6 +672,7 @@
    ;; ⌈ ⌊?
    `(
      ("gl"  . ("\\"))
+     ("ok"  . ("∂"))
      ("GNA" . ("∇"))
      ("Gr"  . ("⍴"))
      ("Gi"  . ("⍳"))
