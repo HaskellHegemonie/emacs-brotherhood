@@ -479,6 +479,7 @@
    ("C-c o c" . #'org-capture) ;; recommended [[https://orgmode.org/manual/Activation.html][1.3]] at  of the org manual
 
    ("C-c o y" . #'org-insert-link)
+   ("C-c o o" . #'org-open-at-point)
    ("C-c o >" . #'org-goto-calendar)
    ("C-c o <" . #'org-date-from-calendar)
    ("C-c o s" . #'org-schedule)
