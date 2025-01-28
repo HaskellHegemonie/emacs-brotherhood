@@ -575,6 +575,10 @@
    ;; getting to the magit status buffer is C-x g by default
    ("C-c g" . 'magit-file-dispatch)
    ("C-c i" . 'magit-init)
+	 (:map magit-mode-map
+				 ("C-n" . #'magit-section-forward)
+				 ("C-p" . #'magit-section-backward)
+				 )
    )
   :config
   (setq transient-default-level 7)
@@ -679,7 +683,7 @@
      ("Gi"  . ("⍳"))
      ("Gi_" . ("⍸"))
      ("Ge"  . ("∊"))
-     ("Ge_" . ("⍷"))
+     ("Ge=" . ("⍷"))
      ("Ga"  . ("⍺"))
      ("Gaa" . ("⍺⍺"))
      ("Go"  . ("⍵"))
@@ -713,8 +717,8 @@
      ("x0"  . ("⍬"))
      ("x,"  . ("⊂"))
      ("x."  . ("⊃"))
-     ("x<"  . ("⊆"))
-     ("x>"  . ("⊇"))
+     ("x,="  . ("⊆"))
+     ("x.="  . ("⊇"))
      ("xw"  . ("∧"))
      ("xw~" . ("⍲"))
      ("xW"  . ("∩"))
