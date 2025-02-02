@@ -959,18 +959,7 @@
         )
   )
 
-(use-package purescript-mode)
-
-(use-package racket-mode)
-(use-package quack)
-
-(use-package nim-mode)
-
 (use-package proof-general)
-
-(use-package julia-mode)
-(use-package julia-repl)
-(use-package julia-vterm)
 
 (require 'sly-autoloads)
 (use-package sly
@@ -988,6 +977,15 @@
 (use-package sly-asdf)
 
 
+
+(use-package pdf-tools
+	:hook
+	(pdf-view-mode-hook . (lambda () (evil-collection-unimpaired-mode -1)))
+	(pdf-view-mode-hook . (lambda () (evil-local-mode -1)))
+	(pdf-view-mode-hook . (lambda () (diff-hl-mode -1)))
+	:config
+	(add-to-list 'revert-without-query ".pdf")
+	)
 
 ;; (use-package pdf-tools
 ;;   :mode "\\.pdf\\"

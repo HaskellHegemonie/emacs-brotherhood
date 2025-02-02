@@ -65,8 +65,6 @@
         sly
         sly-asdf
 
-        racket-mode
-        quack
         guix
         geiser
         geiser-racket

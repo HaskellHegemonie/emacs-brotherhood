@@ -1066,28 +1066,9 @@
           )
     )
 #+end_src
-** Purescript
-#+begin_src elisp
-  (use-package purescript-mode)
-#+end_src
-** Racket
-#+begin_src elisp
-  (use-package racket-mode)
-  (use-package quack)
-#+end_src
-** Nim
-#+begin_src elisp
-  (use-package nim-mode)
-#+end_src
 ** Coq
 #+begin_src elisp
   (use-package proof-general)
-#+end_src
-** Julia
-#+begin_src elisp
-  (use-package julia-mode)
-  (use-package julia-repl)
-  (use-package julia-vterm)
 #+end_src
 ** SB CL
 #+begin_src elisp
@@ -1108,6 +1089,17 @@
 #+end_src
 ** LaTeX
 #+begin_src elisp
+#+end_src
+* PDF
+#+begin_src elisp
+  (use-package pdf-tools
+  	:hook
+  	(pdf-view-mode-hook . (lambda () (evil-collection-unimpaired-mode -1)))
+  	(pdf-view-mode-hook . (lambda () (evil-local-mode -1)))
+  	(pdf-view-mode-hook . (lambda () (diff-hl-mode -1)))
+  	:config
+  	(add-to-list 'revert-without-query ".pdf")
+  	)
 #+end_src
 * Misc                                                                 :todo:
 #+begin_src elisp
