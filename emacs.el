@@ -398,7 +398,7 @@
 	:config
 	;; (add-to-list 'geiser-guile-load-path (file-name-concat (getenv "GUIX_PROFILE") "share"))
 	;; (
-	 ;; (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix/")
+	;; (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix/")
   ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix"))
   ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/nonguix"))
 
@@ -415,43 +415,43 @@
 
 (require 'org)
 (use-package org
-  ;; :after consult
-  :init
-  (defun hsheg/tangle-save-in-org ()
-    (when
-        (string= (file-name-extension (buffer-file-name (current-buffer))) "org")
-      (org-babel-tangle)
-      ))
-  (defun char-to-hex (char)
-    (interactive "cEnter char: ")
-    (format "%x" char)
-    )
-  :hook
-  (org-mode . org-indent-mode)
-  (org-mode . org-num-mode)
-  (after-save . hsheg/tangle-save-in-org)
-  :config
-  :custom
-  (org-list-allow-alphabetical t)
-  ;; (org-directory "~/orgRoam/agenda")
-  (org-agenda-span 14)
-  (org-agenda-files nil) ;; can also set with =C-c [= per project
-  (org-confirm-babel-evaluate nil)
-  (org-src-window-setup 'split-window-below)
-  (org-todo-keywords
-   `(
-     (sequence "TODO(t)" "DONE(d)")
-     (sequence "IN-PROGRESS(p)" "FIXED(f)" "KILLED(k)")
-     (sequence "LAZY(l)")
-     ))
+	;; :after consult
+	:init
+	(defun hsheg/tangle-save-in-org ()
+		(when
+				(string= (file-name-extension (buffer-file-name (current-buffer))) "org")
+			(org-babel-tangle)
+			))
+	(defun char-to-hex (char)
+		(interactive "cEnter char: ")
+		(format "%x" char)
+		)
+	:hook
+	(org-mode . org-indent-mode)
+	(org-mode . org-num-mode)
+	(after-save . hsheg/tangle-save-in-org)
+	:config
+	:custom
+	(org-list-allow-alphabetical t)
+	;; (org-directory "~/orgRoam/agenda")
+	(org-agenda-span 14)
+	(org-agenda-files nil) ;; can also set with =C-c [= per project
+	(org-confirm-babel-evaluate nil)
+	(org-src-window-setup 'split-window-below)
+	(org-todo-keywords
+	 `(
+		 (sequence "TODO(t)" "DONE(d)")
+		 (sequence "IN-PROGRESS(p)" "FIXED(f)" "KILLED(k)")
+		 (sequence "LAZY(l)")
+		 ))
 	(org-babel-load-languages
 	 '((emacs-lisp . t)
 		 (haskell . t)
 		 (python . t)
 		 (C . t)
 		 ))
-  (org-src-window-setup 'current-window)
-  (setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
+	(org-src-window-setup 'current-window)
+	(setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
   (org-structure-template-alist
    '(("a" . "export agda2")
@@ -879,27 +879,27 @@
 (use-package gnu-apl-mode
   :bind*
   (:map gnu-apl-mode-map
-   ("C-c C-l" . (lambda
-                  ()
-                  (interactive)
-                  (let
-                      (
-                       (compile-command
-                        (or
-                         (cdr
-                          (assoc
-                           'compile-command
-                           file-local-variables-alist))
-                         (format
-                          "dyalogscript %s"
-                          (file-name-nondirectory
-                           (buffer-file-name
-                            (current-buffer))))))
-                       )
-                    (recompile)
-                    (delete-window)))
-    )
-   )
+				("C-c C-l" . (lambda
+											 ()
+											 (interactive)
+											 (let
+													 (
+														(compile-command
+														 (or
+															(cdr
+															 (assoc
+																'compile-command
+																file-local-variables-alist))
+															(format
+															 "dyalogscript %s"
+															 (file-name-nondirectory
+																(buffer-file-name
+																 (current-buffer))))))
+														)
+												 (recompile)
+												 (delete-window)))
+				 )
+				)
   :config
   (define (apl-gen-header)
           (interactive)
@@ -937,17 +937,17 @@
                        (delete-window)
                        ))
         ("C-c C-c C-x" . (lambda ()
-                       (interactive)
-                       (setq-local compile-command "cargo test")
-                       (recompile)
-                       (delete-window)
-                       ))
+													 (interactive)
+													 (setq-local compile-command "cargo test")
+													 (recompile)
+													 (delete-window)
+													 ))
         ("C-c C-c C-u" . (lambda ()
-                       (interactive)
-                       (setq-local compile-command "cargo check")
-                       (recompile)
-                       (delete-window)
-                       ))
+													 (interactive)
+													 (setq-local compile-command "cargo check")
+													 (recompile)
+													 (delete-window)
+													 ))
         ("C-r C-h" . (lambda (documentation)
                        (interactive "sSearch for: ")
                        (shell-command (concat "rustup doc" documentation))
