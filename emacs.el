@@ -8,17 +8,6 @@
     )
   )
 
-;; examples
-;; (define (fac n)
-;; 				(if (= n 1)
-;; 						1
-;; 					(* n (fac (- n 1)))
-;; 					)
-;; 				)
-;; (fac 5)
-;; (define foo 'bar)
-
-
 (defmacro λ (&rest body)
   (define (partition list keys &optional acc)
           (if list
@@ -455,7 +444,13 @@
      (sequence "IN-PROGRESS(p)" "FIXED(f)" "KILLED(k)")
      (sequence "LAZY(l)")
      ))
-  (setf org-src-window-setup 'current-window)
+	(org-babel-load-languages
+	 '((emacs-lisp . t)
+		 (haskell . t)
+		 (python . t)
+		 (C . t)
+		 ))
+  (org-src-window-setup 'current-window)
   (setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
   (org-structure-template-alist
@@ -466,6 +461,7 @@
      ("h" . "src haskell")
      ("g" . "src scheme")
      ("r" . "src rust")
+		 ("t" . "src typst")
      ("E" . "export")
      ("l" . "export latex")
      ("q" . "quote")
@@ -494,8 +490,9 @@
 
 
    ("C-c C-o C-p" . #'org-set-property)
+	 ("C-c C-o C-n" . #'org-delete-property)
    ("C-c C-o C-d" . #'org-insert-drawer)
-   ("C-c C-o C-h" . #'org-delete-property)
+   ;; ("C-c C-o C-h" . #'org-delete-property)
    ("C-c C-s" . #'consult-org-heading)
    )
   :bind*
