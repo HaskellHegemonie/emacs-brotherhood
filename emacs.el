@@ -437,7 +437,7 @@
 	(org-agenda-span 14)
 	(org-agenda-files nil) ;; can also set with =C-c [= per project
 	(org-confirm-babel-evaluate nil)
-	(org-src-window-setup 'split-window-below)
+	(setf org-src-window-setup 'split-window-below)
 	(org-todo-keywords
 	 `(
 		 (sequence "TODO(t)" "DONE(d)")
@@ -461,7 +461,7 @@
      ("h" . "src haskell")
      ("g" . "src scheme")
      ("r" . "src rust")
-		 ("t" . "src typst")
+     ("t" . "src typst")
      ("E" . "export")
      ("l" . "export latex")
      ("q" . "quote")
