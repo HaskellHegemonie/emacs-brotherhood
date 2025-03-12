@@ -511,7 +511,7 @@
   	(org-agenda-span 14)
   	(org-agenda-files nil) ;; can also set with =C-c [= per project
   	(org-confirm-babel-evaluate nil)
-  	(setf org-src-window-setup 'split-window-below)
+  	(org-src-window-setup 'split-window-below)
   	(org-todo-keywords
   	 `(
   		 (sequence "TODO(t)" "DONE(d)")
@@ -524,7 +524,6 @@
   		 (python . t)
   		 (C . t)
   		 ))
-  	(org-src-window-setup 'current-window)
   	(setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
     (org-structure-template-alist
