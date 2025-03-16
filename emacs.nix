@@ -1,13 +1,10 @@
 {pkgs, ...}@inputs:
 {
-  # emacs29 baby
-  package = pkgs.emacs29;
+  package = pkgs.emacs;
   enable = true;
   extraPackages = epkgs: with epkgs;
     let
       essentials = [
-        # god-mode
-        # xah-fly-keys
         # projectile
         org
         org-roam
