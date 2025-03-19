@@ -992,3 +992,29 @@
 ;;   :config
 ;;   (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
 ;;   )
+
+(use-package find-file
+	:config
+	(defun find-file-pdf-advice (orig-fun &rest args)
+		(let*
+				(
+				 (filename (car args))
+				 (extension (file-name-extension filename))
+				 (base (file-name-base filename))
+				 (bufname (format "%s.%s" base extension))
+				 )
+			(if (and filename (equal extension "pdf"))
+					(progn
+						(async-shell-command
+						 (format "zathura %s" filename)
+						 bufname
+						 )
+						;; TODO: rewrite using `display-buffer-alist`
+						(delete-window (get-buffer-window bufname))
+						)
+				(apply orig-fun args)
+				)
+			)
+		)
+	(advice-add 'find-file :around #'find-file-pdf-advice)
+	)
