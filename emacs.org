@@ -1113,27 +1113,31 @@
 #+begin_src elisp
   (use-package find-file
   	:config
-  	(defun find-file-pdf-advice (orig-fun &rest args)
+  	(defun find-file-multimedia-advice (orig-fun &rest args)
   		(let*
   				(
   				 (filename (car args))
   				 (extension (file-name-extension filename))
   				 (base (file-name-base filename))
   				 (bufname (format "%s.%s" base extension))
+  				 (filename (format "\"%s\"" filename))
   				 )
-  			(if (and filename (equal extension "pdf"))
-  					(progn
-  						(async-shell-command
-  						 (format "zathura %s" filename)
-  						 bufname
-  						 )
-  						;; TODO: rewrite using `display-buffer-alist`
-  						(delete-window (get-buffer-window bufname))
-  						)
-  				(apply orig-fun args)
+  			(cond
+  			 ((equal extension "pdf")
+  				(async-shell-command (format "zathura %s" filename) bufname)
+  				(delete-window (get-buffer-window bufname))
   				)
-  			)
-  		)
-  	(advice-add 'find-file :around #'find-file-pdf-advice)
+  			 ((or (equal extension "jpeg")
+  						(equal extension "png"))
+  				(async-shell-command (format "sxiv %s" filename) bufname)
+  				(delete-window (get-buffer-window bufname))
+  				)
+  			 (t (apply orig-fun args))
+  			 )
+  			))
+  	(advice-add 'find-file :around #'find-file-multimedia-advice)
+  	(add-to-list 'org-file-apps `("pdf" . "zathura %s"))
+  	(add-to-list 'org-file-apps `("png" . "sxiv %s"))
+  	(add-to-list 'org-file-apps `("jpeg" . "sxiv %s"))
   	)
 #+end_src
