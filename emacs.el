@@ -415,8 +415,9 @@
 
 (require 'org)
 (use-package org
-	;; :after consult
 	:init
+	;; ugly hack
+	;; (load "~/nixos/config/emacs/ox-typst")
 	(defun hsheg/tangle-save-in-org ()
 		(when
 				(string= (file-name-extension (buffer-file-name (current-buffer))) "org")
@@ -460,7 +461,7 @@
      ("h" . "src haskell")
      ("g" . "src scheme")
      ("r" . "src rust")
-     ("t" . "src typst")
+     ("t" . "export typst")
      ("E" . "export")
      ("l" . "export latex")
      ("q" . "quote")
@@ -504,7 +505,8 @@
                   (if compile-command
                       (funcall compile-command)
                     (progn
-                      (org-latex-export-to-pdf)
+                      ;; (org-latex-export-to-pdf)
+                      (org-typst-export-to-pdf)
                       )
                     )
                   ))
