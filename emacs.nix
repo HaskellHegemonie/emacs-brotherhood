@@ -33,6 +33,11 @@
         multi-vterm
         hl-todo
         ement
+        ledger-mode
+        org-contrib
+        elfeed
+        elfeed-org
+        emms
       ];
       latex = [
         auctex

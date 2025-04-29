@@ -212,6 +212,7 @@
   												 )))
   									)
   		)
+  	 ("C-c u" . #'universal-argument)
      )
 
     :config
@@ -524,6 +525,7 @@
   		 (haskell . t)
   		 (python . t)
   		 (C . t)
+  		 (ledger . t)
   		 ))
   	(setf (cdr (assoc 'output-pdf TeX-view-program-selection)) '("Zathura"))
 
@@ -535,9 +537,10 @@
        ("h" . "src haskell")
        ("g" . "src scheme")
        ("r" . "src rust")
+       ("l" . "src ledger")
        ("t" . "export typst")
        ("E" . "export")
-       ("l" . "export latex")
+       ;; ("l" . "export latex")
        ("q" . "quote")
        ("s" . "src")
        ("v" . "verse"))
@@ -623,6 +626,44 @@
     (erc-fill-function 'erc-fill-static)
     (erc-fill-static-center 20))
 #+end_src
+** Elfeed
+#+begin_src elisp
+  (use-package elfeed
+  	:bind
+  	(
+  	 ("C-c f" . #'elfeed)
+  	 )
+  	:config
+  	(setq elfeed-feeds
+  				'(
+  					"https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml"
+  					"https://www.wallstreet-online.de/rss/nachrichten-alle.xml"
+  					"https://www.heise.de/rss/heise-Rubrik-IT-atom.xml"
+  					)
+  				)
+  	)
+#+end_src
+** gnus
+#+begin_src elisp
+  (use-package gnus
+  	:bind
+  	(
+  	 ("C-x m" . #'gnus)
+  	 )
+  	:config
+  	;; (setq gnus-select-method
+  	;; 			'(nntp "gwene"
+  	;; 						 (nntp-address "news.gwene.org")
+  	;; 						 )
+  	;; 			)
+  	;; (setq gnus-secondary-select-methods
+  	;; 			'(
+  	;; 				(nntp "gwene" (nntp-address "news.gwene.org"))
+  	;; 				(nnatom "xkcd.com/atom.xml")
+  	;; 				)
+  	;; 			)
+  	)
+#+end_src
 ** Ement
 #+begin_src elisp
   (use-package ement)
@@ -649,6 +690,11 @@
      ("C-c n w" . whois)
      )
     )
+#+end_src
+** Ledger
+#+begin_src elisp
+  (use-package ledger-mode
+  	)
 #+end_src
 * Dev
 ** Magit
