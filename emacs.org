@@ -277,16 +277,33 @@
     :config
     (evil-mode 1)
 
-    (evil-set-initial-state 'eshell-mode 'emacs)
-    (evil-set-initial-state 'eshell 'emacs)
-    (evil-set-initial-state 'shell-mode 'emacs)
-    (evil-set-initial-state 'shell 'emacs)
-    (evil-set-initial-state 'comint-mode 'emacs)
+    ;; (evil-set-initial-state 'eshell-mode 'emacs)
+    ;; (evil-set-initial-state 'eshell 'emacs)
+    ;; (evil-set-initial-state 'shell-mode 'emacs)
+    ;; (evil-set-initial-state 'shell 'emacs)
+    ;; (evil-set-initial-state 'comint-mode 'emacs)
 
-    (evil-set-initial-state #'mrepl 'emacs)
-    (evil-set-initial-state #'sly-db-mode 'emacs)
+    ;; (evil-set-initial-state #'mrepl 'emacs)
+    ;; (evil-set-initial-state #'sly-db-mode 'emacs)
 
-    (evil-set-initial-state 'Man-mode 'emacs)
+    ;; (evil-set-initial-state 'Man-mode 'emacs)
+  	(dolist
+  			(mode '(eshell-mode
+  							eshell
+  							shell-mode
+  							shell
+  							comint-mode
+  							mrepl
+  							sly-db-mode
+  							Info-mode
+  							Man-mode
+
+  							gnus-summary-mode
+  							gnus-group-mode
+  							gnus-server-mode
+  							))
+  		(evil-set-initial-state mode 'emacs))
+
     (define-key evil-normal-state-map (kbd "C-e") #'move-end-of-line)
     (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
     (define-key evil-normal-state-map (kbd "C-n") #'next-line)
@@ -636,9 +653,13 @@
   	:config
   	(setq elfeed-feeds
   				'(
-  					"https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml"
-  					"https://www.wallstreet-online.de/rss/nachrichten-alle.xml"
+  					"https://www.tagesschau.de/index~rss2.xml"
   					"https://www.heise.de/rss/heise-Rubrik-IT-atom.xml"
+  					"https://hackage.haskell.org/package/base.rss"
+  					"https://hackage.haskell.org/package/hledger.rss"
+  					"https://hackage.haskell.org/package/statistics.rss"
+  					"https://hackage.haskell.org/package/clay.rss"
+  					"https://hackage.haskell.org/package/lucid.rss"
   					)
   				)
   	)
@@ -651,17 +672,13 @@
   	 ("C-x m" . #'gnus)
   	 )
   	:config
-  	;; (setq gnus-select-method
-  	;; 			'(nntp "gwene"
-  	;; 						 (nntp-address "news.gwene.org")
-  	;; 						 )
-  	;; 			)
-  	;; (setq gnus-secondary-select-methods
-  	;; 			'(
-  	;; 				(nntp "gwene" (nntp-address "news.gwene.org"))
-  	;; 				(nnatom "xkcd.com/atom.xml")
-  	;; 				)
-  	;; 			)
+  	(setq gnus-select-method '(nnnil ""))
+  	(setq gnus-secondary-select-methods
+  				'(
+  					(nntp "gwene" (nntp-address "news.gwene.org"))
+  					)
+  				)
+  	(setq gnus-use-full-window nil)
   	)
 #+end_src
 ** Ement
@@ -739,7 +756,9 @@
   (use-package forge
     :after magit
     :config
-    (setq auth-sources '("~/.authinfo.gpg")))
+    ;; (setq auth-sources '("~/.authinfo.gpg"))
+    (setq auth-sources nil)
+  	)
 #+end_src
 ** git-timemachine                                                    :todo:
 #+begin_src elisp
