@@ -1,5 +1,6 @@
 (setq lexical-binding t)
 (require 'use-package)
+(setq emacs-config-location "/etc/nixos/config/emacs")
 
 (defmacro define (id &rest args)
   (if (consp id)
@@ -386,16 +387,36 @@
   (("C-r"  . #'rg)
    ))
 
+(use-package epa
+	:bind
+	(
+	 ("C-c k k" . #'epa-list-keys)
+	 ("C-c k e" . #'epa-encrypt-region)
+	 ("C-c k d" . #'epa-decrypt-region)
+	 ("C-c k s" . #'epa-sign-region)
+	 ("C-c k v" . #'epa-verify-region)
+	 ("C-c k E" . #'epa-decrypt-file)
+	 ("C-c k D" . #'epa-decrypt-file)
+	 ("C-c k S" . #'epa-sign-file)
+	 ("C-c k V" . #'epa-verify-file)
+	 )
+	:bind*
+	(:map
+	 epa-key-list-mode-map
+	 ("C-m" . #'epa-show-key)
+	 ("RET" . #'epa-show-key)
+	 )
+	:custom
+	(epa-keys-select-method 'minibuffer)
+	)
 (use-package epg
   :custom
   (epg-pinentry-mode 'loopback)
-  (epa-armor t))
-
-
+	)
 
 (use-package eshell
   :custom
-  (eshell-aliases-file "/etc/nixos/config/emacs/eshell-aliases")
+  (eshell-aliases-file (concat emacs-config-location "/eshell-aliases"))
   )
 
 (use-package project
@@ -597,6 +618,9 @@
 	:custom
 	(gnus-select-method '(nnnil ""))
 	(gnus-read-newsrc-file nil)
+	(gnus-save-newsrc-file nil)
+	(gnus-save-killed-list nil)
+	(gnus-startup-file (concat emacs-config-location "/newsrc"))
 	(gnus-use-full-window nil)
 	)
 
@@ -1055,12 +1079,6 @@
 	:config
 	(add-to-list 'revert-without-query ".pdf")
 	)
-
-;; (use-package pdf-tools
-;;   :mode "\\.pdf\\"
-;;   :config
-;;   (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
-;;   )
 
 (use-package find-file
 	:config

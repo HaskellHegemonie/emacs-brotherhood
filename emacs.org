@@ -8,6 +8,7 @@
 #+begin_src elisp
   (setq lexical-binding t)
   (require 'use-package)
+  (setq emacs-config-location "/etc/nixos/config/emacs")
 #+end_src
 ** Racketifizierung
 #+begin_src elisp
@@ -446,20 +447,38 @@
 #+end_src
 ** EPA/EGP
 #+begin_src elisp
+  (use-package epa
+  	:bind
+  	(
+  	 ("C-c k k" . #'epa-list-keys)
+  	 ("C-c k e" . #'epa-encrypt-region)
+  	 ("C-c k d" . #'epa-decrypt-region)
+  	 ("C-c k s" . #'epa-sign-region)
+  	 ("C-c k v" . #'epa-verify-region)
+  	 ("C-c k E" . #'epa-decrypt-file)
+  	 ("C-c k D" . #'epa-decrypt-file)
+  	 ("C-c k S" . #'epa-sign-file)
+  	 ("C-c k V" . #'epa-verify-file)
+  	 )
+  	:bind*
+  	(:map
+  	 epa-key-list-mode-map
+  	 ("C-m" . #'epa-show-key)
+  	 ("RET" . #'epa-show-key)
+  	 )
+  	:custom
+  	(epa-keys-select-method 'minibuffer)
+  	)
   (use-package epg
     :custom
     (epg-pinentry-mode 'loopback)
-    (epa-armor t))
-#+end_src
-** Mail
-*** mu4e
-#+begin_src elisp
+  	)
 #+end_src
 ** Eshell
 #+begin_src elisp
   (use-package eshell
     :custom
-    (eshell-aliases-file "/etc/nixos/config/emacs/eshell-aliases")
+    (eshell-aliases-file (concat emacs-config-location "/eshell-aliases"))
     )
 #+end_src
 ** projectile
@@ -680,6 +699,9 @@
   	:custom
   	(gnus-select-method '(nnnil ""))
   	(gnus-read-newsrc-file nil)
+  	(gnus-save-newsrc-file nil)
+  	(gnus-save-killed-list nil)
+  	(gnus-startup-file (concat emacs-config-location "/newsrc"))
   	(gnus-use-full-window nil)
   	)
 #+end_src
@@ -1176,15 +1198,7 @@
   	(add-to-list 'revert-without-query ".pdf")
   	)
 #+end_src
-* Misc                                                                 :todo:
-#+begin_src elisp
-  ;; (use-package pdf-tools
-  ;;   :mode "\\.pdf\\"
-  ;;   :config
-  ;;   (add-hook 'pdf-view-mode-hook #'(lambda () (interactive) (display-line-numbers-mode -1)))
-  ;;   )
-#+end_src
-* Playground
+* FindFile + PDF + Images
 #+begin_src elisp
   (use-package find-file
   	:config
