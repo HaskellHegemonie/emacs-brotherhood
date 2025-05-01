@@ -177,7 +177,7 @@
                   (interactive)
 									(pcase major-mode
 										('agda2-mode (call-interactively 'agda2-refine))
-										(t (progn
+										(_ (progn
 												 (recompile)
 												 (delete-window)
 												 )))
@@ -222,6 +222,7 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package evil
+	:demand t
   :init
   (global-unset-key (kbd "C-v"))
 
@@ -232,6 +233,8 @@
   (evil-want-C-u-scroll t)
   (evil-want-C-d-scroll t)
   (evil-want-C-h-delete nil)
+	(evil-want-C-w-delete nil)
+	(evil-want-C-w-in-emacs-state t)
 
   :bind*
   (("C-c C-h" . #'mode-line-other-buffer)
@@ -252,12 +255,8 @@
   ;; (evil-set-initial-state 'Man-mode 'emacs)
 	(dolist
 			(mode '(eshell-mode
-							eshell
 							shell-mode
-							shell
 							comint-mode
-							mrepl
-							sly-db-mode
 							Info-mode
 							Man-mode
 
@@ -296,19 +295,20 @@
   :config
   (evil-collection-init))
 
-(defvar evil-window-maps (make-sparse-keymap))
+(define-key evil-window-map (kbd "M-q") #'kill-buffer-and-window) 
+;; (defvar evil-window-maps (make-sparse-keymap))
 
-(global-set-key (kbd "C-w") evil-window-maps)
-(define-key evil-window-maps (kbd "C-v") #'evil-window-vsplit)
-(define-key evil-window-maps (kbd "C-s") #'evil-window-split)
-(define-key evil-window-maps (kbd "C-l") #'evil-window-right)
-(define-key evil-window-maps (kbd "C-h") #'evil-window-left)
-(define-key evil-window-maps (kbd "C-j") #'evil-window-down)
-(define-key evil-window-maps (kbd "C-k") #'evil-window-up)
-(define-key evil-window-maps (kbd "C-q") #'delete-window)
-(define-key evil-window-maps (kbd "C-w") #'kill-region)
-(define-key evil-window-maps (kbd "x") #'evil-window-exchange)
-(define-key evil-window-maps (kbd "=") #'balance-windows)
+;; (global-set-key (kbd "C-w") evil-window-maps)
+;; (define-key evil-window-maps (kbd "C-v") #'evil-window-vsplit)
+;; (define-key evil-window-maps (kbd "C-s") #'evil-window-split)
+;; (define-key evil-window-maps (kbd "C-l") #'evil-window-right)
+;; (define-key evil-window-maps (kbd "C-h") #'evil-window-left)
+;; (define-key evil-window-maps (kbd "C-j") #'evil-window-down)
+;; (define-key evil-window-maps (kbd "C-k") #'evil-window-up)
+;; (define-key evil-window-maps (kbd "C-q") #'delete-window)
+;; (define-key evil-window-maps (kbd "C-w") #'kill-region)
+;; (define-key evil-window-maps (kbd "x") #'evil-window-exchange)
+;; (define-key evil-window-maps (kbd "=") #'balance-windows)
 (global-set-key (kbd "M-p") 'evil-scroll-up)
 (global-set-key (kbd "M-n") 'evil-scroll-down)
 (global-set-key (kbd "C-^") 'evil-buffer)
@@ -420,8 +420,7 @@
   ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix"))
   ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/nonguix"))
 
-  ;; :c
-	ustom
+	:custom
   (geiser-default-implementation 'guile)
   )
 (use-package geiser-guile)
@@ -551,7 +550,7 @@
    ("C-c o N" . #'org-roam-dailies-goto-date)
    )
   :config
-  (org-roam-setup)
+  ;; (org-roam-setup)
   (setq org-roam-dailies-directory "journal/"))
 
 (use-package erc
@@ -589,13 +588,16 @@
 	 ("C-x m" . #'gnus)
 	 )
 	:config
-	(setq gnus-select-method '(nnnil ""))
 	(setq gnus-secondary-select-methods
 				'(
-					(nntp "gwene" (nntp-address "news.gwene.org"))
+					;; (nntp "gwene" (nntp-address "news.gwene.org"))
+					(nntp "news.gwene.org")
 					)
 				)
-	(setq gnus-use-full-window nil)
+	:custom
+	(gnus-select-method '(nnnil ""))
+	(gnus-read-newsrc-file nil)
+	(gnus-use-full-window nil)
 	)
 
 (use-package ement)
@@ -660,7 +662,7 @@
   )
 
 (use-package forge
-  :after magit
+  ;; :after magit
   :config
   ;; (setq auth-sources '("~/.authinfo.gpg"))
   (setq auth-sources nil)
@@ -1065,7 +1067,8 @@
 	(defun find-file-multimedia-advice (orig-fun &rest args)
 		(let*
 				(
-				 (filename (car args))
+				 (rawFilename (car args))
+				 (filename (if (equal (substring rawFilename 0 1) "~") (concat (getenv "HOME") (substring rawFilename 1)) rawFilename))
 				 (extension (file-name-extension filename))
 				 (base (file-name-base filename))
 				 (bufname (format "%s.%s" base extension))
