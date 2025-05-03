@@ -412,21 +412,6 @@
 	 )
 	)
 
-(use-package guix)
-
-(use-package geiser
-	:config
-	;; (add-to-list 'geiser-guile-load-path (file-name-concat (getenv "GUIX_PROFILE") "share"))
-	;; (
-	;; (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix/")
-  ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix"))
-  ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/nonguix"))
-
-	:custom
-  (geiser-default-implementation 'guile)
-  )
-(use-package geiser-guile)
-
 (use-package nix-mode
   :bind
   (("C-M-n" . #'nix-repl))
@@ -1041,8 +1026,6 @@
 
         )
   )
-
-(use-package proof-general)
 
 (require 'sly-autoloads)
 (use-package sly

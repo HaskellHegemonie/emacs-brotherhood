@@ -297,7 +297,6 @@
   	 )
     :config
     (evil-mode 1)
-  	(message "Evil has started") 
 
   	(global-set-key (kbd "M-p") 'evil-scroll-up)
   	(global-set-key (kbd "M-n") 'evil-scroll-down)
@@ -477,23 +476,6 @@
   	)
 #+end_src
 * System
-** Guix
-#+begin_src elisp
-  (use-package guix)
-
-  (use-package geiser
-  	:config
-  	;; (add-to-list 'geiser-guile-load-path (file-name-concat (getenv "GUIX_PROFILE") "share"))
-  	;; (
-  	;; (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix/")
-    ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/guix"))
-    ;; (with-eval-after-load 'geiser-guile   (add-to-list 'geiser-guile-load-path "~/code/Guix/src/nonguix"))
-
-  	:custom
-    (geiser-default-implementation 'guile)
-    )
-  (use-package geiser-guile)
-#+end_src
 ** Nix                                                                  :FP:
 #+begin_src elisp
   (use-package nix-mode
@@ -1152,10 +1134,6 @@
 
           )
     )
-#+end_src
-** Coq
-#+begin_src elisp
-  (use-package proof-general)
 #+end_src
 ** SB CL
 #+begin_src elisp

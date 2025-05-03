@@ -24,10 +24,8 @@
         unicode-math-input
         rg
         eimp
-        mu4e
         popper
         doom-themes
-        doom-modeline
         keychain-environment
         vterm
         multi-vterm
@@ -49,25 +47,17 @@
         nix-mode
         # nixos-options
         rust-mode
-        # cmake-mode
         haskell-mode
         rust-mode
         gnu-apl-mode
-        # purescript-mode
-        # psc-ide
-        # nim-mode
-        # racket-mode
         
         unison
         unison-mode
         unisonlang-mode
 
-        proof-general
-
         sly
         sly-asdf
 
-        guix
         geiser
         geiser-racket
         geiser-guile
