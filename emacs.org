@@ -648,6 +648,8 @@
 ** gnus
 #+begin_src elisp
   (use-package gnus
+  	:hook
+  	(gnus-group-mode . gnus-topic-mode)
   	:bind
   	(
   	 ("C-x m" . #'gnus)
@@ -655,7 +657,6 @@
   	:config
   	(setq gnus-secondary-select-methods
   				'(
-  					;; (nntp "gwene" (nntp-address "news.gwene.org"))
   					(nntp "news.gwene.org")
   					)
   				)
@@ -795,7 +796,7 @@
            ("M-k" . flymake-goto-prev-error)
            )
     :hook
-    (haskell-mode-hook . eglot-ensure)
+    (haskell-mode . eglot-ensure)
     :config
     (setq-default eglot-workspace-configuration
                   '((haskell
@@ -1159,9 +1160,9 @@
 #+begin_src elisp
   (use-package pdf-tools
   	:hook
-  	(pdf-view-mode-hook . (lambda () (evil-collection-unimpaired-mode -1)))
-  	(pdf-view-mode-hook . (lambda () (evil-local-mode -1)))
-  	(pdf-view-mode-hook . (lambda () (diff-hl-mode -1)))
+  	(pdf-view-mode . (lambda () (evil-collection-unimpaired-mode -1)))
+  	(pdf-view-mode . (lambda () (evil-local-mode -1)))
+  	(pdf-view-mode . (lambda () (diff-hl-mode -1)))
   	:config
   	(add-to-list 'revert-without-query ".pdf")
   	)

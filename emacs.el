@@ -577,7 +577,6 @@
 	:config
 	(setq gnus-secondary-select-methods
 				'(
-					;; (nntp "gwene" (nntp-address "news.gwene.org"))
 					(nntp "news.gwene.org")
 					)
 				)
@@ -626,18 +625,19 @@
 	)
 
 (use-package magit
-  :bind
-  (
-   ;; getting to the magit status buffer is C-x g by default
-   ("C-c g" . 'magit-file-dispatch)
-   ("C-c i" . 'magit-init)
-	 (:map magit-mode-map
-				 ("C-n" . #'magit-section-forward)
-				 ("C-p" . #'magit-section-backward)
-				 )
-   )
-  :config
-  (setq transient-default-level 7)
+	:bind
+	(
+	 ;; getting to the magit status buffer is C-x g by default
+	 ("C-c g" . 'magit-file-dispatch)
+	 ("C-c i" . 'magit-init)
+	 )
+	(:map
+	 magit-mode-map
+	 ("C-n" . #'magit-section-forward)
+	 ("C-p" . #'magit-section-backward)
+	 )
+	:config
+	(setq transient-default-level 7)
 
   (setq magit-refresh-status-buffer nil)
   (setq auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p)
@@ -699,7 +699,7 @@
          ("M-k" . flymake-goto-prev-error)
          )
   :hook
-  (haskell-mode-hook . eglot-ensure)
+  (haskell-mode . eglot-ensure)
   :config
   (setq-default eglot-workspace-configuration
                 '((haskell
@@ -1046,9 +1046,9 @@
 
 (use-package pdf-tools
 	:hook
-	(pdf-view-mode-hook . (lambda () (evil-collection-unimpaired-mode -1)))
-	(pdf-view-mode-hook . (lambda () (evil-local-mode -1)))
-	(pdf-view-mode-hook . (lambda () (diff-hl-mode -1)))
+	(pdf-view-mode . (lambda () (evil-collection-unimpaired-mode -1)))
+	(pdf-view-mode . (lambda () (evil-local-mode -1)))
+	(pdf-view-mode . (lambda () (diff-hl-mode -1)))
 	:config
 	(add-to-list 'revert-without-query ".pdf")
 	)
