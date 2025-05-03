@@ -260,7 +260,6 @@
 *** Evil
 #+begin_src elisp
   (use-package evil
-  	:demand t
   	:bind
   	(:map
   	 evil-normal-state-map
@@ -295,13 +294,6 @@
   	 ("C-c C-h" . #'mode-line-other-buffer)
   	 ("C-M-v" . #'evil-visual-block)
   	 )
-    :config
-    (evil-mode 1)
-
-  	(global-set-key (kbd "M-p") 'evil-scroll-up)
-  	(global-set-key (kbd "M-n") 'evil-scroll-down)
-  	(global-set-key (kbd "C-^") 'evil-buffer)
-
     :custom
     (evil-want-integration t)
     (evil-want-keybinding nil)
@@ -312,6 +304,13 @@
   	(evil-want-C-w-delete nil)
   	(evil-want-C-w-in-emacs-state t)
   	(evil-insert-state-cursor 'box)
+    :config
+    (evil-mode 1)
+
+  	(global-set-key (kbd "M-p") 'evil-scroll-up)
+  	(global-set-key (kbd "M-n") 'evil-scroll-down)
+  	(global-set-key (kbd "C-^") 'evil-buffer)
+  	:demand t
     )
 
 #+end_src
@@ -335,11 +334,8 @@
   				 gnus-server-mode
   				 ))
   		(evil-set-initial-state mode 'emacs))
+  	:demand t
   	)
-#+end_src
-
-*** Evil Window Maps
-#+begin_src elisp
 #+end_src
 *** Popper
 #+begin_src elisp
@@ -536,9 +532,9 @@
        ("g" . "src scheme")
        ("r" . "src rust")
        ("l" . "src ledger")
+       ("L" . "export latex")
        ("t" . "export typst")
        ("E" . "export")
-       ;; ("l" . "export latex")
        ("q" . "quote")
        ("s" . "src")
        ("v" . "verse"))
@@ -714,18 +710,20 @@
 ** Magit
 #+begin_src elisp
   (use-package magit
-    :bind
-    (
-     ;; getting to the magit status buffer is C-x g by default
-     ("C-c g" . 'magit-file-dispatch)
-     ("C-c i" . 'magit-init)
-  	 (:map magit-mode-map
-  				 ("C-n" . #'magit-section-forward)
-  				 ("C-p" . #'magit-section-backward)
-  				 )
-     )
-    :config
-    (setq transient-default-level 7)
+  	:bind
+  	(
+  	 ;; getting to the magit status buffer is C-x g by default
+  	 ("C-c g" . 'magit-file-dispatch)
+  	 ("C-c i" . 'magit-init)
+  	 )
+  	(:map
+  	 magit-mode-map
+  	 ("C-n" . #'magit-section-forward)
+  	 ("C-p" . #'magit-section-backward)
+  	 )
+
+  	:config
+  	(setq transient-default-level 7)
 
     (setq magit-refresh-status-buffer nil)
     (setq auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p)

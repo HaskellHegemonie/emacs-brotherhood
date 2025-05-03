@@ -223,7 +223,6 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package evil
-	:demand t
 	:bind
 	(:map
 	 evil-normal-state-map
@@ -258,13 +257,6 @@
 	 ("C-c C-h" . #'mode-line-other-buffer)
 	 ("C-M-v" . #'evil-visual-block)
 	 )
-  :config
-  (evil-mode 1)
-
-	(global-set-key (kbd "M-p") 'evil-scroll-up)
-	(global-set-key (kbd "M-n") 'evil-scroll-down)
-	(global-set-key (kbd "C-^") 'evil-buffer)
-
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
@@ -275,6 +267,13 @@
 	(evil-want-C-w-delete nil)
 	(evil-want-C-w-in-emacs-state t)
 	(evil-insert-state-cursor 'box)
+  :config
+  (evil-mode 1)
+
+	(global-set-key (kbd "M-p") 'evil-scroll-up)
+	(global-set-key (kbd "M-n") 'evil-scroll-down)
+	(global-set-key (kbd "C-^") 'evil-buffer)
+	:demand t
   )
 
 (use-package evil-collection
@@ -294,9 +293,8 @@
 				 gnus-server-mode
 				 ))
 		(evil-set-initial-state mode 'emacs))
+	:demand t
 	)
-
-
 
 (use-package popper
   :ensure t ; or :straight t
@@ -467,9 +465,9 @@
      ("g" . "src scheme")
      ("r" . "src rust")
      ("l" . "src ledger")
+     ("L" . "export latex")
      ("t" . "export typst")
      ("E" . "export")
-     ;; ("l" . "export latex")
      ("q" . "quote")
      ("s" . "src")
      ("v" . "verse"))
@@ -570,6 +568,8 @@
 	)
 
 (use-package gnus
+	:hook
+	(gnus-group-mode . gnus-topic-mode)
 	:bind
 	(
 	 ("C-x m" . #'gnus)
@@ -636,6 +636,7 @@
 	 ("C-n" . #'magit-section-forward)
 	 ("C-p" . #'magit-section-backward)
 	 )
+
 	:config
 	(setq transient-default-level 7)
 
