@@ -630,13 +630,16 @@
   	:config
   	(setq elfeed-feeds
   				'(
-  					"https://www.tagesschau.de/index~rss2.xml"
-  					"https://www.heise.de/rss/heise-Rubrik-IT-atom.xml"
   					"https://hackage.haskell.org/package/base.rss"
   					"https://hackage.haskell.org/package/hledger.rss"
   					"https://hackage.haskell.org/package/statistics.rss"
   					"https://hackage.haskell.org/package/clay.rss"
   					"https://hackage.haskell.org/package/lucid.rss"
+  					"https://hackage.haskell.org/package/Chart.rss"
+  					"https://hackage.haskell.org/package/aeson.rss"
+  					"https://hackage.haskell.org/package/ad.rss"
+  					"https://hackage.haskell.org/package/servant.rss"
+  					"https://hackage.haskell.org/package/mtl.rss"
   					)
   				)
   	)
