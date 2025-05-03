@@ -224,8 +224,46 @@
 
 (use-package evil
 	:demand t
-  :init
-  (global-unset-key (kbd "C-v"))
+	:bind
+	(:map
+	 evil-normal-state-map
+	 ("C-e" . #'move-end-of-line)
+	 ("C-p" . #'previous-line)
+	 ("C-n" . #'next-line)
+	 ("C-y" . #'yank)
+	 ("M-y" . #'yank-pop)
+	 ("C-f" . #'forward-char)
+	 ("C-b" . #'backward-char)
+   ("M-n" . #'evil-scroll-down)
+   ("M-p" . #'evil-scroll-up)
+	 )
+	(:map
+	 evil-insert-state-map
+   ("M-n" . #'evil-scroll-down)
+   ("M-p" . #'evil-scroll-up)
+   ("C-g" . #'evil-normal-state)
+   ("TAB" . #'tab-to-tab-stop)
+   ("C-e" . #'move-end-of-line)
+   ("C-f" . #'forward-char)
+   ("C-b" . #'backward-char)
+   ("C-y" . #'yank)
+   ("M-y" . #'yank-pop)
+	 )
+	(:map
+	 evil-window-map
+	 ("M-q" . #'kill-buffer-and-window)
+	 )
+  :bind*
+	(
+	 ("C-c C-h" . #'mode-line-other-buffer)
+	 ("C-M-v" . #'evil-visual-block)
+	 )
+  :config
+  (evil-mode 1)
+
+	(global-set-key (kbd "M-p") 'evil-scroll-up)
+	(global-set-key (kbd "M-n") 'evil-scroll-down)
+	(global-set-key (kbd "C-^") 'evil-buffer)
 
   :custom
   (evil-want-integration t)
@@ -236,87 +274,29 @@
   (evil-want-C-h-delete nil)
 	(evil-want-C-w-delete nil)
 	(evil-want-C-w-in-emacs-state t)
-
-  :bind*
-  (("C-c C-h" . #'mode-line-other-buffer)
-   ("C-M-v" . #'evil-visual-block)
-   ("C-v" . #'universal-argument))
-  :config
-  (evil-mode 1)
-
-  ;; (evil-set-initial-state 'eshell-mode 'emacs)
-  ;; (evil-set-initial-state 'eshell 'emacs)
-  ;; (evil-set-initial-state 'shell-mode 'emacs)
-  ;; (evil-set-initial-state 'shell 'emacs)
-  ;; (evil-set-initial-state 'comint-mode 'emacs)
-
-  ;; (evil-set-initial-state #'mrepl 'emacs)
-  ;; (evil-set-initial-state #'sly-db-mode 'emacs)
-
-  ;; (evil-set-initial-state 'Man-mode 'emacs)
-	(dolist
-			(mode '(eshell-mode
-							shell-mode
-							comint-mode
-							Info-mode
-							Man-mode
-
-							gnus-summary-mode
-							gnus-group-mode
-							gnus-server-mode
-							))
-		(evil-set-initial-state mode 'emacs))
-
-  (define-key evil-normal-state-map (kbd "C-e") #'move-end-of-line)
-  (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
-  (define-key evil-normal-state-map (kbd "C-n") #'next-line)
-  (define-key evil-normal-state-map (kbd "C-y") #'yank)
-  (define-key evil-normal-state-map (kbd "M-y") #'yank-pop)
-  (define-key evil-normal-state-map (kbd "C-f") #'forward-char)
-  (define-key evil-normal-state-map (kbd "C-b") #'backward-char)
-
-  (define-key evil-normal-state-map (kbd "M-n") #'evil-scroll-down)
-  (define-key evil-normal-state-map (kbd "M-p") #'evil-scroll-up)
-
-  (define-key evil-insert-state-map (kbd "M-n") #'evil-scroll-down)
-  (define-key evil-insert-state-map (kbd "M-p") #'evil-scroll-up)
-
-  (define-key evil-insert-state-map (kbd "C-g") #'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "TAB") #'tab-to-tab-stop)
-  (define-key evil-visual-state-map (kbd "C-e") #'move-end-of-line)
-  (define-key evil-visual-state-map (kbd "C-f") #'forward-char)
-  (define-key evil-visual-state-map (kbd "C-b") #'backward-char)
-  (define-key evil-visual-state-map (kbd "C-y") #'yank)
-  (define-key evil-visual-state-map (kbd "M-y") #'yank-pop)
-  (setq evil-insert-state-cursor 'box)
+	(evil-insert-state-cursor 'box)
   )
 
 (use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+	:after evil
+	:config
+	(evil-collection-init)
+	(dolist
+			(mode
+			 '(eshell-mode
+				 shell-mode
+				 comint-mode
+				 Info-mode
+				 Man-mode
 
-(define-key evil-window-map (kbd "M-q") #'kill-buffer-and-window) 
-;; (defvar evil-window-maps (make-sparse-keymap))
+				 gnus-summary-mode
+				 gnus-group-mode
+				 gnus-server-mode
+				 ))
+		(evil-set-initial-state mode 'emacs))
+	)
 
-;; (global-set-key (kbd "C-w") evil-window-maps)
-;; (define-key evil-window-maps (kbd "C-v") #'evil-window-vsplit)
-;; (define-key evil-window-maps (kbd "C-s") #'evil-window-split)
-;; (define-key evil-window-maps (kbd "C-l") #'evil-window-right)
-;; (define-key evil-window-maps (kbd "C-h") #'evil-window-left)
-;; (define-key evil-window-maps (kbd "C-j") #'evil-window-down)
-;; (define-key evil-window-maps (kbd "C-k") #'evil-window-up)
-;; (define-key evil-window-maps (kbd "C-q") #'delete-window)
-;; (define-key evil-window-maps (kbd "C-w") #'kill-region)
-;; (define-key evil-window-maps (kbd "x") #'evil-window-exchange)
-;; (define-key evil-window-maps (kbd "=") #'balance-windows)
-(global-set-key (kbd "M-p") 'evil-scroll-up)
-(global-set-key (kbd "M-n") 'evil-scroll-down)
-(global-set-key (kbd "C-^") 'evil-buffer)
-(define-minor-mode evil-window-mode
-  nil
-  "Ewin"
-  evil-window-maps)
+
 
 (use-package popper
   :ensure t ; or :straight t
@@ -391,6 +371,7 @@
 	:bind
 	(
 	 ("C-c k k" . #'epa-list-keys)
+	 ("C-c k K" . #'epa-list-keys)
 	 ("C-c k e" . #'epa-encrypt-region)
 	 ("C-c k d" . #'epa-decrypt-region)
 	 ("C-c k s" . #'epa-sign-region)
@@ -622,6 +603,15 @@
 	(gnus-save-killed-list nil)
 	(gnus-startup-file (concat emacs-config-location "/newsrc"))
 	(gnus-use-full-window nil)
+
+	(gnus-use-cross-reference nil)
+	(gnus-asynchronous t)
+	(gnus-auto-select-first nil)
+	(mm-inline-large-images nil)
+	(mm-discouraged-alternatives '("image/.*"))
+	(shr-blocked-images ".*")
+	(shr-allowed-images "")
+	 (shr-inhibit-images t)
 	)
 
 (use-package ement)
