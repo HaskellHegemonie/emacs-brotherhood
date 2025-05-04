@@ -266,20 +266,13 @@
   (evil-want-C-h-delete nil)
 	(evil-want-C-w-delete nil)
 	(evil-want-C-w-in-emacs-state t)
-	(evil-insert-state-cursor 'box)
-  :config
-  (evil-mode 1)
-
+	:config
+	(evil-mode 1)
+	(setopt
+	 evil-insert-state-cursor 'box)
 	(global-set-key (kbd "M-p") 'evil-scroll-up)
 	(global-set-key (kbd "M-n") 'evil-scroll-down)
 	(global-set-key (kbd "C-^") 'evil-buffer)
-	:demand t
-  )
-
-(use-package evil-collection
-	:after evil
-	:config
-	(evil-collection-init)
 	(dolist
 			(mode
 			 '(eshell-mode
@@ -288,12 +281,18 @@
 				 Info-mode
 				 Man-mode
 
-				 gnus-summary-mode
-				 gnus-group-mode
-				 gnus-server-mode
-				 ))
-		(evil-set-initial-state mode 'emacs))
-	:demand t
+         gnus-summary-mode
+         gnus-group-mode
+         gnus-server-mode
+         ))
+		(evil-set-initial-state mode 'emacs)
+		)
+  )
+
+(use-package evil-collection
+	:after evil
+	:config
+	(evil-collection-init)
 	)
 
 (use-package popper
@@ -358,16 +357,15 @@
   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package rg
-  :init
-  (global-unset-key (kbd "C-r"))
-  (keymap-global-unset "C-r")
-  :bind
-  (("C-r"  . #'rg)
-   ))
+  :bind*
+  (:map global-map
+	 ("C-c n r"  . #'rg)
+	 )
+	)
 
 (use-package epa
-	:bind
-	(
+	:bind*
+	(:map global-map
 	 ("C-c k k" . #'epa-list-keys)
 	 ("C-c k K" . #'epa-list-keys)
 	 ("C-c k e" . #'epa-encrypt-region)
@@ -379,7 +377,6 @@
 	 ("C-c k S" . #'epa-sign-file)
 	 ("C-c k V" . #'epa-verify-file)
 	 )
-	:bind*
 	(:map
 	 epa-key-list-mode-map
 	 ("C-m" . #'epa-show-key)
@@ -388,6 +385,7 @@
 	:custom
 	(epa-keys-select-method 'minibuffer)
 	)
+
 (use-package epg
   :custom
   (epg-pinentry-mode 'loopback)
@@ -462,6 +460,7 @@
      ("C" . "comment")
      ("e" . "src elisp")
      ("h" . "src haskell")
+     ("n" . "src nix")
      ("g" . "src scheme")
      ("r" . "src rust")
      ("l" . "src ledger")
@@ -573,9 +572,9 @@
 (use-package gnus
 	:hook
 	(gnus-group-mode . gnus-topic-mode)
-	:bind
+	:bind*
 	(
-	 ("C-x m" . #'gnus)
+	 ("C-x C-m" . #'gnus)
 	 )
 	:config
 	(setq gnus-secondary-select-methods
@@ -610,8 +609,8 @@
   (ifconfig-program "ip")
   (ifconfig-program-options '("a"))
 
-  :bind
-  (
+  :bind*
+  (:map global-map
    ("C-c p s" . proced)
    ("C-c n n" . netstat)
    ("C-c n p" . ping)
@@ -665,7 +664,7 @@
   )
 
 (use-package forge
-  ;; :after magit
+  :after magit
   :config
   ;; (setq auth-sources '("~/.authinfo.gpg"))
   (setq auth-sources nil)
@@ -679,47 +678,46 @@
   (global-diff-hl-mode))
 
 (use-package eglot
-  ;; :hook
-  ;; (prog-mode . eglot-ensure)
-  :config
-  (defvar eglot-keymap (make-sparse-keymap))
-  (global-set-key (kbd "C-l") eglot-keymap)
-  (define-key eglot-keymap "a" #'eglot-code-actions)
-  (define-key eglot-keymap "r" #'eglot-rename)
-  (define-key eglot-keymap "i" #'eglot-find-implementation)
-  (define-key eglot-keymap "t" #'eglot-find-typeDefinition)
-  (define-key eglot-keymap "d" #'eglot-find-declaration)
-  (define-key eglot-keymap "f" #'eglot-format)
-  (setq eldoc-echo-area-use-multiline-p nil)
-  :bind (
-         ;; ("C-l" . #'eglot-keymap)
-         ;; ("C-l a" . #'eglot-code-actions)
-         ;; ("C-l r" . #'eglot-rename)
-         ;; ("C-l f" . #'eglot-format)
-         ;; ("C-l i" . #'eglot-find-imlementation)
-         ;; ("C-l t" . #'eglot-find-typeDefinition)
-         ;; ("C-l d" . #'eglot-find-declaration)
-         ("M-j" . flymake-goto-next-error)
-         ("M-k" . flymake-goto-prev-error)
-         )
-  :hook
-  (haskell-mode . eglot-ensure)
-  :config
-  (setq-default eglot-workspace-configuration
-                '((haskell
-                   (plugin
-                    (stan
-                     (globalOn . :json-false))))))  ;; disable stan
-  )
+	:init
+	(defvar eglot-keymap (make-sparse-keymap))
+	(bind-keys
+	 :map eglot-keymap
+	 ("a" . #'eglot-code-actions)
+	 ("r" . #'eglot-rename)
+	 ("i" . #'eglot-find-imlementation)
+	 ("t" . #'eglot-find-typeDefinition)
+	 ("d" . #'eglot-find-declaration)
+	 ("f" . #'eglot-format)
+	 )
+	:bind
+	(
+	 ("M-j" . flymake-goto-next-error)
+	 ("M-k" . flymake-goto-prev-error)
+	 )
+	:bind-keymap*
+	(
+	 ("C-l" . eglot-keymap)
+	 )
+	;; :hook
+	;; (haskell-mode . eglot-ensure)
+	;; (prog-mode . eglot-ensure)
+	:custom
+	(eldoc-echo-area-use-multiline-p nil)
+	(eglot-autoshutdown t)
+	;; (eglot-workspace-configuration
+	;;  '((haskell (plugin (stan (globalOn . :json-false))))))
+	)
 
 (use-package vterm)
 (use-package multi-vterm
   :config
   :bind
-  (("C-c l" . #'multi-vterm-next)
+  (
+	 ("C-c l" . #'multi-vterm-next)
    ("C-c h" . #'multi-vterm-prev)
    ("C-c v" . #'multi-vterm)
-   ))
+	 )
+	)
 
 (use-package dap-mode)
 

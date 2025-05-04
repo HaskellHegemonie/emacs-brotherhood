@@ -36,6 +36,7 @@
         elfeed
         elfeed-org
         emms
+        osm
       ];
       latex = [
         auctex
