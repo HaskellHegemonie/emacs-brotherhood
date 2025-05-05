@@ -416,8 +416,6 @@
 (require 'org)
 (use-package org
 	:init
-	;; ugly hack
-	;; (load "~/nixos/config/emacs/ox-typst")
 	(defun hsheg/tangle-save-in-org ()
 		(when
 				(string= (file-name-extension (buffer-file-name (current-buffer))) "org")
@@ -432,6 +430,7 @@
 	(org-mode . org-num-mode)
 	(after-save . hsheg/tangle-save-in-org)
 	:config
+	(add-to-list 'org-modules 'org-tempo t)
 	:custom
 	(org-list-allow-alphabetical t)
 	;; (org-directory "~/orgRoam/agenda")
@@ -471,6 +470,29 @@
      ("s" . "src")
      ("v" . "verse"))
    )
+	(org-tempo-keywords-alist
+	 '(
+		 ;; ("L" . "latex")
+		 ("H" . "html")
+		 ("A" . "ascii")
+		 ("i" . "index")
+
+		 ("ot" . "title")
+		 ("oa" . "author")
+		 ("om" . "email")
+		 ("od" . "date")
+		 ("oo" . "options")
+		 ("oe" . "exclude_tags")
+		 ("os" . "subtitle")
+		 ("op" . "property")
+		 ("on" . "name")
+		 ("oh" . "header")
+		 ("oc" . "call")
+
+		 ;; ("lc" . "latex_class")
+		 ("lh" . "latex_header")
+		 )
+	 )
   :bind*
   (
    ("C-c o l" . #'org-store-link)
@@ -498,7 +520,6 @@
    ;; ("C-c C-o C-h" . #'org-delete-property)
    ("C-c C-s" . #'consult-org-heading)
    )
-  :bind*
   (:map
    org-mode-map
    ("C-c C-l" . (lambda ()
@@ -518,7 +539,8 @@
    ("M-j" . #'org-metadown)
    ("M-k" . #'org-metaup)
 
-   ("C-c t" . #'org-todo)
+	 ("C-c t" . #'org-todo)
+	 ("C-<tab>"   . #'org-cycle)
    )
   )
 
@@ -574,7 +596,7 @@
 	(gnus-group-mode . gnus-topic-mode)
 	:bind*
 	(
-	 ("C-x C-m" . #'gnus)
+	 ("C-c C-m" . #'gnus)
 	 )
 	:config
 	(setq gnus-secondary-select-methods
