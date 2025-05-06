@@ -365,7 +365,8 @@
 
 (use-package epa
 	:bind*
-	(:map global-map
+	(:map
+	 global-map
 	 ("C-c k k" . #'epa-list-keys)
 	 ("C-c k K" . #'epa-list-keys)
 	 ("C-c k e" . #'epa-encrypt-region)
@@ -381,6 +382,7 @@
 	 epa-key-list-mode-map
 	 ("C-m" . #'epa-show-key)
 	 ("RET" . #'epa-show-key)
+	 ("M-RET" . #'epa-show-key)
 	 )
 	:custom
 	(epa-keys-select-method 'minibuffer)
@@ -389,7 +391,7 @@
 (use-package epg
   :custom
   (epg-pinentry-mode 'loopback)
-	)
+  )
 
 (use-package eshell
   :custom
@@ -482,6 +484,7 @@
 		 ("om" . "email")
 		 ("od" . "date")
 		 ("oo" . "options")
+		 ("ol" . "language")
 		 ("oe" . "exclude_tags")
 		 ("os" . "subtitle")
 		 ("op" . "property")
@@ -540,7 +543,7 @@
    ("M-k" . #'org-metaup)
 
 	 ("C-c t" . #'org-todo)
-	 ("C-<tab>"   . #'org-cycle)
+	 ("C-,"   . #'org-cycle)
    )
   )
 
