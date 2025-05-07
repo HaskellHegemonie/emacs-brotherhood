@@ -278,8 +278,11 @@
 			 '(eshell-mode
 				 shell-mode
 				 comint-mode
+
 				 Info-mode
 				 Man-mode
+
+				 ediff-mode
 
          gnus-summary-mode
          gnus-group-mode
@@ -487,6 +490,7 @@
 		 ("ol" . "language")
 		 ("oe" . "exclude_tags")
 		 ("os" . "subtitle")
+		 ("osf" . "setupfile")
 		 ("op" . "property")
 		 ("on" . "name")
 		 ("oh" . "header")
@@ -601,6 +605,13 @@
 	(
 	 ("C-c C-m" . #'gnus)
 	 )
+	(
+	 :map
+	 gnus-article-mode-map
+	 ("C-j" . #'gnus-summary-next-article)
+	 ("C-k" . #'gnus-summary-prev-article)
+	 )
+
 	:config
 	(setq gnus-secondary-select-methods
 				'(
@@ -622,7 +633,41 @@
 	(mm-discouraged-alternatives '("image/.*"))
 	(shr-blocked-images ".*")
 	(shr-allowed-images "")
-	 (shr-inhibit-images t)
+	(shr-inhibit-images t)
+	)
+
+(use-package ediff
+	:init
+	(setq ediff-keymap (make-sparse-keymap))
+	:bind*
+	(:map
+	 ediff-keymap
+	 ("r" . #'ediff-show-registry)
+	 ;; ("b" . #'ediff-backup)
+
+	 ("f" . #'ediff-files)
+	 ("F" . #'ediff-files3)
+
+	 ("b" . #'ediff-buffers)
+	 ("B" . #'ediff-buffers3)
+
+	 ("d" . #'ediff-directories)
+	 ("D" . #'ediff-directories3)
+
+	 ("g" . #'ediff-revision)
+
+	 ("w" . #'ediff-windows-wordwise)
+	 ("W" . #'ediff-windows-linewise)
+
+	 ;; ("w" . #'ediff-region-wordwise)
+	 ;; ("W" . #'ediff-region-linewise)
+	 ("p" . #'ediff-patch-buffer)
+	 ("P" . #'ediff-patch-file)
+	 )
+	:bind-keymap*
+	(
+	 ("C-c d" . ediff-keymap)
+	 )
 	)
 
 (use-package ement)
