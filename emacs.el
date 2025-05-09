@@ -496,6 +496,9 @@
 		 ("oh" . "header")
 		 ("oc" . "call")
 
+		 ("ok" . "keywords")
+		 ("oal" . "article_link")
+
 		 ;; ("lc" . "latex_class")
 		 ("lh" . "latex_header")
 		 )
