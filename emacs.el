@@ -335,13 +335,25 @@
   (completion-styles '(orderless basic)))
 
 (use-package consult
-  :bind
-  ("C-c c l" . #'consult-line)
-  ("C-c c f" . #'consult-find)
-  ("C-c c r" . #'consult-ripgrep)
-  ("C-c c b" . #'consult-buffer)
-  ("C-c c h" . #'consult-org-heading)
-  ("C-c c a" . #'consult-org-agenda))
+	:init
+	(setq consult-keymap (make-sparse-keymap))
+	:bind*
+	(:map
+	 consult-keymap
+   ("l" . #'consult-line)
+   ("f" . #'consult-find)
+   ("r" . #'consult-ripgrep)
+   ("b" . #'consult-buffer)
+   ("h" . #'consult-org-heading)
+   ("a" . #'consult-org-agenda)
+	 ("i" . #'consult-imenu)
+	 ("k" . #'consult-imenu-multi)
+	 )
+	:bind-keymap*
+	(
+	 ("C-x i" . consult-keymap)
+	 )
+	)
 
 (use-package corfu
   :init
@@ -403,13 +415,18 @@
 
 (use-package project
 	:bind
-	(
+	(:map
+	 project-prefix-map
 	 ("C-x p r"
 		. (lambda ()
 				(interactive)
 				(project-recompile)
 				(delete-window)
 				))
+	 )
+	:bind-keymap*
+	(
+	 ("C-c p" . project-prefix-map)
 	 )
 	)
 
@@ -651,7 +668,7 @@
 
   :bind*
   (:map global-map
-   ("C-c p s" . proced)
+   ("C-c n c" . proced)
    ("C-c n n" . netstat)
    ("C-c n p" . ping)
    ("C-c n i" . ifconfig)
@@ -667,11 +684,11 @@
 	)
 
 (use-package magit
-	:bind
+	:bind*
 	(
 	 ;; getting to the magit status buffer is C-x g by default
-	 ("C-c g" . 'magit-file-dispatch)
-	 ("C-c i" . 'magit-init)
+	 ("C-c g" . #'magit-file-dispatch)
+	 ("C-c C-d" . #'magit-dispatch)
 	 )
 	(:map
 	 magit-mode-map
