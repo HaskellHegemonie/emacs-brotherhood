@@ -554,21 +554,6 @@
    )
   )
 
-(use-package org-roam
-  :custom
-  (org-roam-directory "~/orgRoam")
-  :bind
-  (
-   ;; ("C-c o l" . #'org-roam-buffer-toggle)
-   ("C-c o f" . #'org-roam-node-find)
-   ("C-c o i" . #'org-roam-node-insert)
-   ("C-c o n" . #'org-roam-dailies-capture-date)
-   ("C-c o N" . #'org-roam-dailies-goto-date)
-   )
-  :config
-  ;; (org-roam-setup)
-  (setq org-roam-dailies-directory "journal/"))
-
 (use-package erc
   :custom
   (erc-prompt (lambda () (concat "[" (buffer-name) "]")))
@@ -578,28 +563,6 @@
   (erc-fill-column 100)
   (erc-fill-function 'erc-fill-static)
   (erc-fill-static-center 20))
-
-(use-package elfeed
-	:bind
-	(
-	 ("C-c f" . #'elfeed)
-	 )
-	:config
-	(setq elfeed-feeds
-				'(
-					"https://hackage.haskell.org/package/base.rss"
-					"https://hackage.haskell.org/package/hledger.rss"
-					"https://hackage.haskell.org/package/statistics.rss"
-					"https://hackage.haskell.org/package/clay.rss"
-					"https://hackage.haskell.org/package/lucid.rss"
-					"https://hackage.haskell.org/package/Chart.rss"
-					"https://hackage.haskell.org/package/aeson.rss"
-					"https://hackage.haskell.org/package/ad.rss"
-					"https://hackage.haskell.org/package/servant.rss"
-					"https://hackage.haskell.org/package/mtl.rss"
-					)
-				)
-	)
 
 (use-package gnus
 	:hook
@@ -613,6 +576,10 @@
 	 gnus-article-mode-map
 	 ("C-j" . #'gnus-summary-next-article)
 	 ("C-k" . #'gnus-summary-prev-article)
+	 )
+	(:map
+	 gnus-summary-mode-map
+	 ("C-d" . #'evil-scroll-down)
 	 )
 
 	:config

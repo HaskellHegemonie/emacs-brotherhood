@@ -7,7 +7,6 @@
       essentials = [
         # projectile
         org
-        org-roam
         evil
         evil-collection
         use-package
@@ -33,8 +32,6 @@
         ement
         ledger-mode
         org-contrib
-        elfeed
-        elfeed-org
         emms
         osm
       ];
