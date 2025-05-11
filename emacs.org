@@ -391,8 +391,10 @@
   	:bind*
   	(:map
   	 consult-keymap
+  	 ("C-s" . #'isearch-forward)
+  	 ("C-r" . #'isearch-backward)
      ("C-l" . #'consult-line)
-     ("C-f" . #'consult-findfile)
+     ("C-f" . #'consult-find)
      ("C-r" . #'consult-ripgrep)
      ("C-b" . #'consult-buffer)
      ("C-h" . #'consult-org-heading)
@@ -406,6 +408,31 @@
   	(
   	 ("C-s" . consult-keymap)
   	 )
+  	)
+#+end_src
+
+*** Embark
+#+begin_src elisp
+  (use-package embark
+  	:bind*
+  	(
+  	 ("C-." . #'embark-act)
+  	 ("C-;" . #'embark-dwim)
+  	 ("C-h b" . #'describe-bindings)
+  	 ("C-h B" . #'embark-bindings)
+  	 )
+  	(:map
+  	 evil-normal-state-map
+  	 ("C-." . #'embark-act)
+  	 )
+  	)
+#+end_src
+
+*** Embark + Consult
+#+begin_src elisp
+  (use-package embark-consult
+  	:hook
+  	(embark-collect-mode . consult-preview-at-point-mode)
   	)
 #+end_src
 
@@ -771,6 +798,15 @@
   	 ("C-c n" . net-utils-keymap)
   	 )
     )
+#+end_src
+** External Browser
+#+begin_src elisp
+  (use-package browse-url
+  	:custom
+  	(browse-url-firefox-program "firefox")
+  	(browse-url-browser-function #'browse-url-firefox)
+  	(browse-url-firefox-arguments '("-private-window"))
+  	)
 #+end_src
 ** Ledger
 #+begin_src elisp

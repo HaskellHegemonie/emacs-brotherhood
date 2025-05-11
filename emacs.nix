@@ -18,6 +18,8 @@
         marginalia
         orderless
         consult
+        embark
+        embark-consult
         corfu
         pdf-tools
         unicode-math-input

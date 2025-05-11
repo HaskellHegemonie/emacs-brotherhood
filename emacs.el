@@ -322,8 +322,8 @@
   )
 
 (use-package vertico
-  :config
-  (vertico-mode 1))
+	:config
+	(vertico-mode 1))
 
 (use-package marginalia
   :config
@@ -341,8 +341,10 @@
 	:bind*
 	(:map
 	 consult-keymap
+	 ("C-s" . #'isearch-forward)
+	 ("C-r" . #'isearch-backward)
    ("C-l" . #'consult-line)
-   ("C-f" . #'consult-findfile)
+   ("C-f" . #'consult-find)
    ("C-r" . #'consult-ripgrep)
    ("C-b" . #'consult-buffer)
    ("C-h" . #'consult-org-heading)
@@ -352,17 +354,29 @@
 	 ("C-v" . #'consult-git-grep)
 	 ("C-y" . #'consult-yank-from-kill-ring)
 	 )
-	(:map
-	 evil-normal-state-map
-	 ("/" . #'consult-line)
-	 )
-	(
-	 ("M-s" . #'consult-line)
-	 )
 	:bind-keymap*
 	(
 	 ("C-s" . consult-keymap)
 	 )
+	)
+
+(use-package embark
+	:bind*
+	(
+	 ("C-." . #'embark-act)
+	 ("C-;" . #'embark-dwim)
+	 ("C-h b" . #'describe-bindings)
+	 ("C-h B" . #'embark-bindings)
+	 )
+	(:map
+	 evil-normal-state-map
+	 ("C-." . #'embark-act)
+	 )
+	)
+
+(use-package embark-consult
+	:hook
+	(embark-collect-mode . consult-preview-at-point-mode)
 	)
 
 (use-package corfu
@@ -698,6 +712,13 @@
 	 ("C-c n" . net-utils-keymap)
 	 )
   )
+
+(use-package browse-url
+	:custom
+	(browse-url-firefox-program "firefox")
+	(browse-url-browser-function #'browse-url-firefox)
+	(browse-url-firefox-arguments '("-private-window"))
+	)
 
 (use-package ledger-mode
 	)
