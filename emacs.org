@@ -385,23 +385,26 @@
 *** Consult
 #+begin_src elisp
   (use-package consult
+  	:after evil
   	:init
   	(setq consult-keymap (make-sparse-keymap))
   	:bind*
   	(:map
   	 consult-keymap
-     ("l" . #'consult-line)
-     ("f" . #'consult-find)
-     ("r" . #'consult-ripgrep)
-     ("b" . #'consult-buffer)
-     ("h" . #'consult-org-heading)
-     ("a" . #'consult-org-agenda)
-  	 ("i" . #'consult-imenu)
-  	 ("k" . #'consult-imenu-multi)
+     ("C-l" . #'consult-line)
+     ("C-f" . #'consult-findfile)
+     ("C-r" . #'consult-ripgrep)
+     ("C-b" . #'consult-buffer)
+     ("C-h" . #'consult-org-heading)
+     ("C-a" . #'consult-org-agenda)
+  	 ("C-i" . #'consult-imenu)
+  	 ("C-k" . #'consult-imenu-multi)
+  	 ("C-v" . #'consult-git-grep)
+  	 ("C-y" . #'consult-yank-from-kill-ring)
   	 )
   	:bind-keymap*
   	(
-  	 ("C-x i" . consult-keymap)
+  	 ("C-s" . consult-keymap)
   	 )
   	)
 #+end_src
@@ -429,9 +432,11 @@
 ** Grep
 #+begin_src elisp
   (use-package rg
+  	:after net-utils
     :bind*
-    (:map global-map
-  	 ("C-c n r"  . #'rg)
+    (:map
+  	 net-utils-keymap
+  	 ("r"  . #'rg)
   	 )
   	)
 #+end_src
@@ -740,24 +745,31 @@
 ** net-utils
 #+begin_src elisp
   (use-package net-utils
-    :custom
-    (netstat-program "ss")
-    ;; (netstat-program-options '("-tunlp"))
-    (ifconfig-program "ip")
-    (ifconfig-program-options '("a"))
+  	:init
+  	(setq net-utils-keymap (make-sparse-keymap))
+  	:custom
+  	(netstat-program "ss")
+  	;; (netstat-program-options '("-tunlp"))
+  	(ifconfig-program "ip")
+  	(ifconfig-program-options '("a"))
 
     :bind*
-    (:map global-map
-     ("C-c n c" . proced)
-     ("C-c n n" . netstat)
-     ("C-c n p" . ping)
-     ("C-c n i" . ifconfig)
-     ("C-c n l" . nslookup-host)
-     ("C-c n d" . dig)
-     ("C-c n s" . smbclient)
-     ("C-c n f" . finger)
-     ("C-c n w" . whois)
+    (:map
+  	 net-utils-keymap
+     ("c" . proced)
+     ("n" . netstat)
+     ("p" . ping)
+     ("i" . ifconfig)
+     ("l" . nslookup-host)
+     ("d" . dig)
+     ("s" . smbclient)
+     ("f" . finger)
+     ("w" . whois)
      )
+  	:bind-keymap*
+  	(
+  	 ("C-c n" . net-utils-keymap)
+  	 )
     )
 #+end_src
 ** Ledger
