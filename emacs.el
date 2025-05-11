@@ -343,11 +343,12 @@
 	 consult-keymap
 	 ("C-s" . #'isearch-forward)
 	 ("C-r" . #'isearch-backward)
-   ("C-l" . #'consult-line)
+   ("C-l" . #'consult-goto-line)
    ("C-f" . #'consult-find)
    ("C-r" . #'consult-ripgrep)
    ("C-b" . #'consult-buffer)
-   ("C-h" . #'consult-org-heading)
+   ("C-h" . #'consult-line)
+   ("C-o" . #'consult-org-heading)
    ("C-a" . #'consult-org-agenda)
 	 ("C-i" . #'consult-imenu)
 	 ("C-k" . #'consult-imenu-multi)
@@ -570,8 +571,6 @@
    ("C-c C-o C-p" . #'org-set-property)
 	 ("C-c C-o C-n" . #'org-delete-property)
    ("C-c C-o C-d" . #'org-insert-drawer)
-   ;; ("C-c C-o C-h" . #'org-delete-property)
-   ("C-c C-s" . #'consult-org-heading)
    )
   (:map
    org-mode-map
