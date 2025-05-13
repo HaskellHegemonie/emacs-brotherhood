@@ -171,7 +171,8 @@
 
   :bind*
   (
-   ("C-x C-h" . #'switch-to-buffer) ;; oh yes
+   ;; ("C-x C-h" . #'switch-to-buffer) ;; oh yes
+   ("C-x C-h" . #'consult-buffer)
    ("C-M-e" . #'eshell)
    ("C-v" . #'universal-argument)
    ("C-c C-r" . (lambda ()
@@ -481,6 +482,7 @@
 	:config
 	(add-to-list 'org-modules 'org-tempo t)
 	:custom
+	(org-imenu-depth 5)
 	(org-list-allow-alphabetical t)
 	;; (org-directory "~/orgRoam/agenda")
 	(org-agenda-span 14)
@@ -898,6 +900,9 @@
      ("x="  . ("⌸"))
      ("x'"  . ("⍞"))
      ("xs"  . ("⌺"))
+
+		 ("\"'" . ("„"))
+		 ("\"q" . ("“"))
      ))
   )
 ;; (defvar gnu-apl--symbols '(;; Top row
