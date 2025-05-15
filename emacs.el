@@ -173,6 +173,7 @@
   (
    ;; ("C-x C-h" . #'switch-to-buffer) ;; oh yes
    ("C-x C-h" . #'consult-buffer)
+	 ("C-x C-r" . #'consult-register)
    ("C-M-e" . #'eshell)
    ("C-v" . #'universal-argument)
    ("C-c C-r" . (lambda ()
@@ -211,6 +212,37 @@
   (eletric-indent-mode nil)
   (lexical-binding t)
   )
+
+(use-package register
+	:init
+	(setq register-keymap (make-sparse-keymap))
+	:bind-keymap*
+	(
+	 ("C-x r" . register-keymap)
+	 )
+	:bind*
+	(:map
+	 register-keymap
+	 ("p" . #'point-to-register)
+	 ("y" . #'copy-to-register)
+	 ("w" . #'window-configuration-to-register)
+	 ("f" . #'frameset-to-register)
+	 )
+	)
+
+(use-package bookmark
+	:after
+	register
+	:bind*
+	(:map
+	 register-keymap
+	 ("s" . #'bookmark-set)
+	 ("d" . #'bookmark-delete)
+	 ("l" . #'bookmark-locate)
+	 ("b" . #'edit-bookmarks)
+	 ("n" . #'bookmark-rename)
+	 )
+)
 
 (use-package keychain-environment
   :config
@@ -346,8 +378,7 @@
 	 ("C-r" . #'isearch-backward)
    ("C-l" . #'consult-goto-line)
    ("C-f" . #'consult-find)
-   ("C-r" . #'consult-ripgrep)
-   ("C-b" . #'consult-buffer)
+	 ("C-r" . #'consult-ripgrep)
    ("C-h" . #'consult-line)
    ("C-o" . #'consult-org-heading)
    ("C-a" . #'consult-org-agenda)
