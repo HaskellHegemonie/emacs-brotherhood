@@ -176,16 +176,6 @@
 	 ("C-x C-r" . #'consult-register)
    ("C-M-e" . #'eshell)
    ("C-v" . #'universal-argument)
-   ("C-c C-r" . (lambda ()
-                  (interactive)
-									(pcase major-mode
-										('agda2-mode (call-interactively 'agda2-refine))
-										(_ (progn
-												 (recompile)
-												 (delete-window)
-												 )))
-									)
-		)
 	 ("C-c u" . #'universal-argument)
    )
 
@@ -529,7 +519,9 @@
 	(org-babel-load-languages
 	 '((emacs-lisp . t)
 		 (haskell . t)
+		 (rust . t)
 		 (python . t)
+		 (julia . t)
 		 (C . t)
 		 (ledger . t)
 		 ))
@@ -544,6 +536,8 @@
      ("n" . "src nix")
      ("g" . "src scheme")
      ("r" . "src rust")
+		 ("j" . "src julia")
+		 ("p" . "src python")
      ("l" . "src ledger")
      ("L" . "export latex")
      ("t" . "export typst")
@@ -1165,6 +1159,34 @@
 
         )
   )
+
+(use-package rustic
+	:config
+	(rustic-doc-mode)
+	:custom
+	(rustic-babel-display-error-popup t)
+	(rustic-babel-display-compilation-buffer nil)
+	(rustic-babel-format-src-block nil)
+	(rustic-display-spinner nil)
+	(rustic-compile-display-method 'ignore)
+	:bind*
+	(
+	 :map
+	 rustic-mode-map
+	 (
+		("C-c C-r" . #'rustic-cargo-run)
+		)
+	 )
+	)
+
+(use-package julia-repl
+	:bind*
+	(:map
+	 julia-repl-mode-map
+	 ("C-c C-r" . #'julia-repl-send-buffer)
+	 ("C-c C-l" . #'julia-repl-send-line)
+	 )
+)
 
 (require 'sly-autoloads)
 (use-package sly

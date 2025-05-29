@@ -47,8 +47,12 @@
         nix-mode
         # nixos-options
         rust-mode
+        rustic
+        cargo
         haskell-mode
-        rust-mode
+        julia-mode
+        # julia-snail
+        julia-repl
         gnu-apl-mode
         
         unison
