@@ -41,6 +41,11 @@
         auctex
         cdlatex
       ];
+      typst = [
+        typst-ts-mode
+        ox-typst
+        tree-sitter-langs
+      ];
       languages = [
         # lsp-haskell
         dap-mode
@@ -74,6 +79,6 @@
         diff-hl
       ];
     in
-      builtins.concatLists [ essentials latex languages gitPackages ];
+      builtins.concatLists [ essentials latex typst languages gitPackages ];
   extraConfig = builtins.readFile ./emacs.el;
 }

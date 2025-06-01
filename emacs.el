@@ -174,6 +174,7 @@
    ;; ("C-x C-h" . #'switch-to-buffer) ;; oh yes
    ("C-x C-h" . #'consult-buffer)
 	 ("C-x C-r" . #'consult-register)
+	 ("C-c C-h" . #'consult-bookmark)
    ("C-M-e" . #'eshell)
    ("C-v" . #'universal-argument)
 	 ("C-c u" . #'universal-argument)
@@ -277,7 +278,7 @@
 	 )
   :bind*
 	(
-	 ("C-c C-h" . #'mode-line-other-buffer)
+	 ;; ("C-c C-h" . #'mode-line-other-buffer)
 	 ("C-M-v" . #'evil-visual-block)
 	 )
   :custom
@@ -1202,6 +1203,9 @@
   )
 
 (use-package sly-asdf)
+
+(use-package ox-typst
+	)
 
 
 
