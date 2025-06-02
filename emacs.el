@@ -602,18 +602,7 @@
    )
   (:map
    org-mode-map
-   ("C-c C-l" . (lambda ()
-                  (interactive)
-                  ;; (setq-local compile-command (cdr (assoc 'hsheg-org-cc file-local-variables-alist)))
-                  (setq-local compile-command nil)
-                  (if compile-command
-                      (funcall compile-command)
-                    (progn
-                      ;; (org-latex-export-to-pdf)
-                      (org-typst-export-to-pdf)
-                      )
-                    )
-                  ))
+	 ("C-c C-r" . #'org-typst-export-to-pdf)
    ("M-l" . #'org-metaright)
    ("M-h" . #'org-metaleft)
    ("M-j" . #'org-metadown)
@@ -1203,6 +1192,13 @@
   )
 
 (use-package sly-asdf)
+
+(use-package typst-ts-mode
+	;; :bind*
+	;; (:map
+	;;  typst-ts-mode-map
+	 ;; ("C-c
+	)
 
 (use-package ox-typst
 	)

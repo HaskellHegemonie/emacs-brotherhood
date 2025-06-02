@@ -44,7 +44,7 @@
       typst = [
         typst-ts-mode
         ox-typst
-        tree-sitter-langs
+        treesit-grammars.with-all-grammars
       ];
       languages = [
         # lsp-haskell
