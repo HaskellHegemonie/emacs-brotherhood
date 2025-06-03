@@ -1194,6 +1194,8 @@
 (use-package sly-asdf)
 
 (use-package typst-ts-mode
+	:config
+	(defalias 'typst-mode 'typst-ts-mode)
 	;; :bind*
 	;; (:map
 	;;  typst-ts-mode-map
