@@ -155,6 +155,18 @@
   :init
   (load-theme 'doom-one t))
 
+(use-package emoji
+	:init
+	(setq emoji-keymap (make-sparse-keymap))
+	:bind*
+	(:map
+	 emoji-keymap
+	 ("s" . #'emoji-search)
+	 )
+	:bind-keymap*
+	("C-c e" . emoji-keymap)
+	)
+
 (use-package emacs
   :init
   ;; (global-display-line-numbers-mode)
@@ -573,6 +585,9 @@
 
 		 ;; ("lc" . "latex_class")
 		 ("lh" . "latex_header")
+
+
+		 ("tt" . "typst")
 		 )
 	 )
   :bind*

@@ -181,6 +181,21 @@
     :init
     (load-theme 'doom-one t))
 #+end_src
+*** Emoji
+#+begin_src elisp
+  (use-package emoji
+  	:init
+  	(setq emoji-keymap (make-sparse-keymap))
+  	:bind*
+  	(:map
+  	 emoji-keymap
+  	 ("s" . #'emoji-search)
+  	 )
+  	:bind-keymap*
+  	("C-c e" . emoji-keymap)
+  	)
+#+end_src
+
 ** Config
 *** Startup
 #+begin_src elisp
@@ -654,6 +669,9 @@
 
   		 ;; ("lc" . "latex_class")
   		 ("lh" . "latex_header")
+
+
+  		 ("tt" . "typst")
   		 )
   	 )
     :bind*
