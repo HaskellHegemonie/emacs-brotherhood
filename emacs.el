@@ -162,6 +162,8 @@
 	(:map
 	 emoji-keymap
 	 ("s" . #'emoji-search)
+	 ("i" . #'emoji-insert)
+	 ("u" . #'insert-char)
 	 )
 	:bind-keymap*
 	("C-c e" . emoji-keymap)
@@ -864,15 +866,16 @@
   (agda-input-user-translations
    ;; ⌈ ⌊?
    `(
-     ("gl"  . ("\\"))
-     ("ok"  . ("∂"))
+		 ("gl"  . ("\\"))
+		 ("f"   . ("dif")) ;; ← ugly workaround
+     ("ff"  . ("∂"))
      ("GNA" . ("∇"))
      ("Gr"  . ("⍴"))
-     ("Gi"  . ("⍳"))
+     ("Gi"  . ("ι" "⍳"))
      ("Gi_" . ("⍸"))
-     ("Ge"  . ("∊"))
+     ("Ge"  . ("ε" "∊"))
      ("Ge=" . ("⍷"))
-     ("Ga"  . ("⍺"))
+     ("Ga"  . ("α" "⍺"))
      ("Gaa" . ("⍺⍺"))
      ("Go"  . ("⍵"))
      ("Goo" . ("⍵⍵"))
@@ -935,9 +938,12 @@
 		 ("\"q" . ("“"))
 		 ("''"  . ("‘"))
 		 ("'q"  . ("’"))
-
 		 ("tl"  . ("◃"))
 		 ("tr"  . ("▹"))
+		 ("ket" . ("⟩"))
+		 ("-"   . ("∖"))
+		 ("W"   . ("⋀"))
+		 ("V"   . ("⋁"))
      ))
   )
 ;; (defvar gnu-apl--symbols '(;; Top row
@@ -1169,6 +1175,7 @@
 	:config
 	(rustic-doc-mode)
 	:custom
+	(rustic-format-on-save t)
 	(rustic-babel-display-error-popup t)
 	(rustic-babel-display-compilation-buffer nil)
 	(rustic-babel-format-src-block nil)
